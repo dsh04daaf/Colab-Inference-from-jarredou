@@ -30,7 +30,10 @@ Basado en el notebook original de **jarredou** & deton. Este repo lo conserva, l
   notes="""## ¿Qué modelo se usa para acapellas e instrumentales?
 Por defecto, el **MelBand Roformer de KimberleyJSN**. Es una elección de uso, no de métricas: quien mantiene este Colab lo usa para acapellas y se queda con su resultado.
 
-Según las métricas de la [guía de deton24](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), puntúan más alto **Leap Xe de unwa** (voces) y **deux de becruily** (instrumental). Están los segundos y primeros de sus listas en *Avanzado → modelo*, por si quieres comparar. No hay un mejor modelo para todo: depende de la canción.
+Según las métricas de la [guía de deton24](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), puntúan más alto **Leap Xe de unwa** (voces) y **deux de becruily** (instrumental). Puedes elegirlos en *Avanzado → modelo* para comparar. No hay un mejor modelo para todo: depende de la canción.
+
+## ¿En qué orden está la lista de modelos?
+Dentro de cada categoría (VOCALS, INST, KARAOKE, DE-REVERB…) van **de mejor a peor en teoría**, siguiendo el orden en que los presenta la guía de deton24, que se basa en métricas y en lo que dicen sus autores y la comunidad. Los que la guía no ordena van después, del más nuevo al más viejo. Es un orden teórico: «peor» aquí solo quiere decir que suele puntuar menos, y en una canción concreta puede sonar mejor uno de más abajo (es justo lo que pasa con el de KimberleyJSN).
 
 ## ¿Qué significan los ajustes?
 **Cada modelo tiene su propia configuración** (la que publicó su autor) y se carga sola al elegirlo. En `auto` no hay nada que tocar; al terminar se imprime qué valores se usaron.
@@ -73,7 +76,10 @@ Based on the original notebook by **jarredou** & deton. This repo preserves it, 
   notes="""## Which model is used for acapellas and instrumentals?
 By default, **KimberleyJSN's MelBand Roformer**. It is a choice from use, not from metrics: the maintainer of this Colab uses it for acapellas and prefers its result.
 
-By the metrics in [deton24's guide](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), **unwa's Leap Xe** (vocals) and **becruily's deux** (instrumental) score higher. They sit second and first in their lists under *Advanced → model*, in case you want to compare. There is no single best model: it depends on the song.
+By the metrics in [deton24's guide](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), **unwa's Leap Xe** (vocals) and **becruily's deux** (instrumental) score higher. You can pick them under *Advanced → model* to compare. There is no single best model: it depends on the song.
+
+## In what order is the model list?
+Within each category (VOCALS, INST, KARAOKE, DE-REVERB…) models go **from best to worst in theory**, following the order in which deton24's guide presents them, which is based on metrics and on what their authors and the community say. Models the guide does not rank come after, newest first. It is a theoretical order: "worse" here only means it usually scores lower, and on a given song one further down can sound better (that is exactly the case with KimberleyJSN's).
 
 ## What do the settings mean?
 **Every model has its own configuration** (the one its author published) and it loads by itself when you pick the model. On `auto` there is nothing to touch; the values used are printed when it finishes.

@@ -51,34 +51,34 @@ Los mismos de arriba: el notebook original es de **jarredou** y **deton24**, el 
 
 | Model | Author | Where the notebook downloads it from | Backed up here | Author settings (chunk / overlap) | Size |
 |---|---|---|---|---|---|
-| VOCALS-MelBand-Roformer (by KimberleyJSN) | KimberleyJSN | [link](https://huggingface.co/KimberleyJSN/melbandroformer) | — | 352800 / 2 | 871 MiB |
+| VOCALS-BS-Roformer voc_mag (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/BS_RoFormer_mag) | — | 640000 / 2 | 195 MiB |
 | VOCALS-BS-Roformer Leap Xe (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Leap) | — | 881559 / 2 | 255 MiB |
 | VOCALS-BS-Roformer Leap (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Leap) | — | 881559 / 2 | 227 MiB |
-| VOCALS-BS-Roformer vocals_ft1 (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/BS-RoFormer) | — | 960000 / 4 | 195 MiB |
-| VOCALS-BS-Roformer voc_mag (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/BS_RoFormer_mag) | — | 640000 / 2 | 195 MiB |
-| VOCALS-Mel-Roformer big_beta7 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 676935 / 2 | 901 MiB |
-| VOCALS-Mel-Roformer voc_fv7 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 2 | 467 MiB |
-| VOCALS-MelBand-Roformer (by Becruily) | Becruily | [link](https://huggingface.co/becruily/mel-band-roformer-vocals) | — | 352800 / 2 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv5 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv4 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv6 experimental (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv7 beta 3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv7 beta 2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv7 beta (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer voc_Fv3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-Melband-Roformer BigBeta6 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 529200 / 2 | 1485 MiB |
-| VOCALS-Melband-Roformer BigBeta6X (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 529200 / 2 | 1629 MiB |
-| VOCALS-MelBand-Roformer voc_gabox2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
-| VOCALS-MelBand-Roformer Kim FT 2 Bleedless (by Unwa) | Unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
-| VOCALS-MelBand-Roformer Kim FT 2 (by Unwa) | Unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
-| VOCALS-Mel-Roformer FT 3 Preview (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
-| VOCALS-MelBand-Roformer Kim FT (by Unwa) | Unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
-| VOCALS-Melband-Roformer BigBeta5e (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 485100 / 2 | 1411 MiB |
-| VOCALS-Mel-Roformer BigBeta4 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 485100 / 2 | 1502 MiB |
 | VOCALS-BS-Roformer Resurrection (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Resurrection) | — | 785920 / 2 | 195 MiB |
+| VOCALS-Melband-Roformer BigBeta6X (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 529200 / 2 | 1629 MiB |
+| VOCALS-Mel-Roformer big_beta7 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 676935 / 2 | 901 MiB |
 | VOCALS-BS-Roformer Revive 3e (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Revive) | — | 485100 / 2 | 610 MiB |
+| VOCALS-Mel-Roformer voc_fv7 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 2 | 467 MiB |
+| VOCALS-MelBand-Roformer voc_Fv7 beta 2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-MelBand-Roformer voc_Fv7 beta 3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-MelBand-Roformer voc_Fv7 beta (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-BS-Roformer vocals_ft1 (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/BS-RoFormer) | — | 960000 / 4 | 195 MiB |
+| VOCALS-MelBand-Roformer voc_Fv4 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-MelBand-Roformer voc_Fv5 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-Melband-Roformer BigBeta5e (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 485100 / 2 | 1411 MiB |
+| VOCALS-MelBand-Roformer Kim FT 2 Bleedless (by Unwa) | Unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
+| VOCALS-MelBand-Roformer voc_Fv6 experimental (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-MelBand-Roformer (by Becruily) | Becruily | [link](https://huggingface.co/becruily/mel-band-roformer-vocals) | — | 352800 / 2 | 871 MiB |
 | VOCALS-BS-Roformer Revive 2 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Revive) | — | 485100 / 2 | 610 MiB |
+| VOCALS-Mel-Roformer FT 3 Preview (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
+| VOCALS-Melband-Roformer BigBeta6 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 529200 / 2 | 1485 MiB |
+| VOCALS-MelBand-Roformer Kim FT 2 (by Unwa) | Unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
+| VOCALS-MelBand-Roformer Kim FT (by Unwa) | Unwa | [link](https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT) | — | 485100 / 8 | 871 MiB |
 | VOCALS-BS-Roformer Revive (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Revive) | — | 485100 / 2 | 610 MiB |
+| VOCALS-MelBand-Roformer voc_gabox2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-MelBand-Roformer voc_Fv3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 1 | 871 MiB |
+| VOCALS-Mel-Roformer BigBeta4 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-big) | — | 485100 / 2 | 1502 MiB |
+| VOCALS-MelBand-Roformer (by KimberleyJSN) | KimberleyJSN | [link](https://huggingface.co/KimberleyJSN/melbandroformer) | — | 352800 / 2 | 871 MiB |
 | VOCALS-BS-RoformerLargev1 (by unwa) | unwa | [link](https://huggingface.co/Sucial/MSST-WebUI) | yes | 352800 / — | 706 MiB |
 | VOCALS-BS-Roformer_1297 (by viperx) | viperx | [link](https://github.com/TRvlvr/model_repo) | yes | 352800 / 2 | 610 MiB |
 | VOCALS-BS-Roformer_1296 (by viperx) | viperx | [link](https://github.com/TRvlvr/model_repo) | yes | 352800 / 4 | 610 MiB |
@@ -100,51 +100,51 @@ Los mismos de arriba: el notebook original es de **jarredou** y **deton24**, el 
 | VOCALS-Mel-Roformer duality v1 (by Amane) | Amane | [link](https://huggingface.co/Aname-Tommy/Mel-Band-Roformer_Duality) | — | 661500 / 4 | 871 MiB |
 | VOCALS-Mel-Roformer small v1 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-small) | — | 485100 / 2 | 193 MiB |
 | INST-VOC-Mel-Roformer deux (by becruily) | becruily | [link](https://huggingface.co/becruily/mel-band-roformer-deux) | — | 573300 / 2 | 415 MiB |
-| INST-BS-Roformer Leap Xe (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Leap) | — | 881559 / 2 | 255 MiB |
-| INST-BS-Roformer Leap (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Leap) | — | 881559 / 2 | 227 MiB |
+| INST-BS-Roformer Resurrection (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Resurrection) | — | 749259 / 2 | 195 MiB |
+| INST-Mel-Roformer v1e+ (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer flowers_v10 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / 2 | 467 MiB |
 | INST-Mel-Roformer inst_fv9 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer v1e (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer v1e+ (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
-| INST-BS-Roformer Resurrection (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Resurrection) | — | 749259 / 2 | 195 MiB |
-| INST-Mel-Roformer INSTV8B (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-BS-Roformer Leap Xe (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Leap) | — | 881559 / 2 | 255 MiB |
+| INST-BS-Roformer Leap (by unwa) | unwa | [link](https://huggingface.co/pcunwa/BS-Roformer-Leap) | — | 881559 / 2 | 227 MiB |
 | INST-MelBand-Roformer Inst_Fv8 v2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-MelBand-Roformer (by Becruily) | Becruily | [link](https://huggingface.co/becruily/mel-band-roformer-instrumental) | — | 352800 / 2 | 871 MiB |
+| INST-Mel-Roformer INSTFV7Z (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer INSTV7 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-MelBand-Roformer (by Becruily) | Becruily | [link](https://huggingface.co/becruily/mel-band-roformer-instrumental) | — | 352800 / 2 | 871 MiB |
 | INST-MelBand-Roformer Inst_Fv4 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer INSTV8B (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer inst_fv7b (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer rifforge (by Mesk) | Mesk | [link](https://huggingface.co/meskvlla33/rifforge) | — | 733824 / 2 | 1918 MiB |
+| INST-Mel-Roformer inst_gabox3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer INSTV7N (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer INSTV6N (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer instv5n (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer v1e (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer inst_gaboxfv3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer v1 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer instv7plus (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer inst_gaboxbv3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
+| INST-Mel-Roformer v2 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 1502 MiB |
 | INST-Mel-Roformer Neo_InstVFX (by neoculture) | neoculture | [link](https://huggingface.co/natanworkspace/melband_roformer) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer INSTFVX (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer INSTV7N (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer INSTFV7Z (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer INSTV6N (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer INSTV5 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer INSTV6 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer inst_gabox3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer Metal Model Preview (by Mesk) | Mesk | [link](https://huggingface.co/meskvlla33/metal_roformer_preview) | — | 881559 / 5 | 901 MiB |
 | INST-VOC-Mel-Roformer a.k.a. duality (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-InstVoc-Duality) | — | 485100 / 2 | 1639 MiB |
 | INST-VOC-Mel-Roformer a.k.a. duality v2 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-InstVoc-Duality) | — | 485100 / 2 | 1639 MiB |
-| INST-Mel-Roformer v1 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer v1+ (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer v2 (by unwa) | unwa | [link](https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst) | — | 485100 / 2 | 1502 MiB |
-| INST-Mel-Roformer inst_fv7b (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-BS-Roformer instrum (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/BS-RoFormer) | — | 960000 / 4 | 195 MiB |
-| INST-Mel-Roformer rifforge (by Mesk) | Mesk | [link](https://huggingface.co/meskvlla33/rifforge) | — | 733824 / 2 | 1918 MiB |
 | INST-Mel-Roformer rifforge_beta (by Mesk) | Mesk | [link](https://huggingface.co/meskvlla33/rifforge_beta_v1) | — | 734706 / 2 | 871 MiB |
-| INST-Mel-Roformer instv7plus (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer instv8n (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer instv10_experimental (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer inst_gaboxbv3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer instv7_beta3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer instv7_beta2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-Mel-Roformer instv7_beta (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer instv5n (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
-| INST-Mel-Roformer inst_gaboxfv3 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 2 | 871 MiB |
 | INST-BS-Roformer neo_inst_beta (by neoculture) | neoculture | [link](https://huggingface.co/natanworkspace/bs_roformer) | — | 882000 / 2 | 195 MiB |
 | KARAOKE-Mel-Roformer karaoke_small (by Gabox & aufr33) | Gabox & aufr33 | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 352800 / — | 193 MiB |
 | KARAOKE-BS-Roformer (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/karaoke_bs_roformer) | — | 640000 / 4 | 195 MiB |
+| KARAOKE-BS-Roformer (by becruily & frazer) | becruily & frazer | [link](https://huggingface.co/becruily/bs-roformer-karaoke) | — | 882000 / 4 | 195 MiB |
 | KARAOKE-MelBand-Roformer (by becruily) | becruily | [link](https://huggingface.co/becruily/mel-band-roformer-karaoke) | — | 485100 / 8 | 1639 MiB |
 | KARAOKE-MelBand-Roformer (by aufr33 & viperx) | aufr33 & viperx | [link](https://huggingface.co/Eddycrack864/audio-separator-models) | yes | 352800 / 4 | 871 MiB |
-| KARAOKE-BS-Roformer (by becruily & frazer) | becruily & frazer | [link](https://huggingface.co/becruily/bs-roformer-karaoke) | — | 882000 / 4 | 195 MiB |
 | KARAOKE-Mel-Roformer kar_v2 (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 8 | 871 MiB |
 | KARAOKE-Mel-Roformer kar_gabox (by Gabox) | Gabox | [link](https://huggingface.co/GaboxR67/MelBandRoformers) | — | 485100 / 8 | 871 MiB |
 | OTHER-Mel-Roformer duet (by drypaintman) | drypaintman | [link](https://huggingface.co/DryPaintMan/MelBandRoformer-Duet) | — | 352800 / 1 | 601 MiB |
@@ -172,8 +172,8 @@ Los mismos de arriba: el notebook original es de **jarredou** y **deton24**, el 
 | DRUMSEP-MDX23C_DrumSep_5stem_new (by jarredou) | jarredou | [link](https://huggingface.co/xavriley/source_separation_mirror) | yes | 523776 / 4 (fixed) | 417 MiB |
 | DRUMSEP-MDX23C_DrumSep_6stem (by aufr33 & jarredou) | aufr33 & jarredou | [link](https://huggingface.co/Sucial/MSST-WebUI) | yes | 130560 / 4 (fixed) | 417 MiB |
 | DE-REVERB-BS-Roformer dereverb (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/dereverb_bs_roformer) | — | 448000 / 2 | 195 MiB |
-| DE-REVERB-MDX23C (by aufr33 & jarredou) | aufr33 & jarredou | [link](https://huggingface.co/Sucial/MSST-WebUI) | yes | 261120 / 4 (fixed) | 427 MiB |
 | DE-REVERB-MelBand-Roformer aggr./v2/19.1729 (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/dereverb_mel_band_roformer) | — | 352800 / 2 (fixed) | 871 MiB |
+| DE-REVERB-MDX23C (by aufr33 & jarredou) | aufr33 & jarredou | [link](https://huggingface.co/Sucial/MSST-WebUI) | yes | 261120 / 4 (fixed) | 427 MiB |
 | DE-REVERB-BS-Roformer dereverb_room mono (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/dereverb_room) | — | 384000 / 2 (fixed) | 113 MiB |
 | DE-REVERB-MelBand-Roformer mono 20.4029 (by anvuew) | anvuew | [link](https://huggingface.co/anvuew/dereverb_mel_band_roformer) | — | 352800 / 2 (fixed) | 871 MiB |
 | DE-REVERB-Echo-MelBand-Roformer (by Sucial) | Sucial | [link](https://huggingface.co/Sucial/Dereverb-Echo_Mel_Band_Roformer) | — | 352800 / 4 (fixed) | 797 MiB |

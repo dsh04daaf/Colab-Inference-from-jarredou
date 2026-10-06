@@ -30,32 +30,36 @@
  },
  "models": [
   {
-   "name": "VOCALS-MelBand-Roformer (by KimberleyJSN)",
+   "name": "VOCALS-BS-Roformer voc_mag (by anvuew)",
    "category": "VOCALS",
-   "author": "KimberleyJSN",
-   "model_type": "mel_band_roformer",
+   "author": "anvuew",
+   "model_type": "bs_roformer",
    "tunable": true,
-   "chunk_size": 352800,
+   "chunk_size": 640000,
    "overlap": 2,
    "instruments": [
     "vocals",
-    "other"
+    "instrument"
    ],
    "target": "vocals",
+   "added": "2026-10-06",
+   "released": "2026-03-12",
    "files": [
     {
      "role": "config",
-     "name": "config_vocals_mel_band_roformer_kj.yaml",
-     "url": "https://raw.githubusercontent.com/ZFTurbo/Music-Source-Separation-Training/main/configs/KimberleyJensen/config_vocals_mel_band_roformer_kj.yaml",
-     "bytes": 1721
+     "name": "config.yaml",
+     "url": "https://huggingface.co/anvuew/BS_RoFormer_mag/raw/main/config.yaml",
+     "bytes": 1968
     },
     {
      "role": "checkpoint",
-     "name": "MelBandRoformer.ckpt",
-     "url": "https://huggingface.co/KimberleyJSN/melbandroformer/resolve/main/MelBandRoformer.ckpt",
-     "bytes": 913106900
+     "name": "bs_roformer_mag_anvuew.ckpt",
+     "url": "https://huggingface.co/anvuew/BS_RoFormer_mag/resolve/main/bs_roformer_mag_anvuew.ckpt",
+     "bytes": 204502577,
+     "sha256": "16792de7af1a5d5293debec24d4566b13b645e6707776234409cce7697ea933d"
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-BS-Roformer Leap Xe (by unwa)",
@@ -85,7 +89,8 @@
      "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/Xe/bs_leap_xe_voc.ckpt",
      "bytes": 267796851
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-BS-Roformer Leap (by unwa)",
@@ -115,69 +120,66 @@
      "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/bs_roformer_leap_voc.ckpt",
      "bytes": 238220459
     }
-   ]
-  },
-  {
-   "name": "VOCALS-BS-Roformer vocals_ft1 (by anvuew)",
-   "category": "VOCALS",
-   "author": "anvuew",
-   "model_type": "bs_roformer",
-   "tunable": true,
-   "chunk_size": 960000,
-   "overlap": 4,
-   "instruments": [
-    "vocals",
-    "instrument"
    ],
-   "target": "vocals",
-   "added": "2026-10-06",
-   "released": "2026-04-17",
-   "files": [
-    {
-     "role": "config",
-     "name": "config.yaml",
-     "url": "https://huggingface.co/anvuew/BS-RoFormer/resolve/main/config.yaml",
-     "bytes": 1969
-    },
-    {
-     "role": "checkpoint",
-     "name": "bs_roformer_ft1_anvuew_sdr_12.55.ckpt",
-     "url": "https://huggingface.co/anvuew/BS-RoFormer/resolve/main/bs_roformer_ft1_anvuew_sdr_12.55.ckpt",
-     "bytes": 204493312,
-     "sha256": "60347271e8493fdff28ef558c3b2297afb869a1f4462594ed548038264bec395"
-    }
-   ]
+   "ranked": true
   },
   {
-   "name": "VOCALS-BS-Roformer voc_mag (by anvuew)",
+   "name": "VOCALS-BS-Roformer Resurrection (by unwa)",
    "category": "VOCALS",
-   "author": "anvuew",
+   "author": "unwa",
    "model_type": "bs_roformer",
    "tunable": true,
-   "chunk_size": 640000,
+   "chunk_size": 785920,
    "overlap": 2,
    "instruments": [
     "vocals",
-    "instrument"
+    "other"
    ],
    "target": "vocals",
-   "added": "2026-10-06",
-   "released": "2026-03-12",
    "files": [
     {
-     "role": "config",
-     "name": "config.yaml",
-     "url": "https://huggingface.co/anvuew/BS_RoFormer_mag/raw/main/config.yaml",
-     "bytes": 1968
+     "role": "checkpoint",
+     "name": "BS-Roformer-Resurrection.ckpt",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection.ckpt",
+     "bytes": 204510749
     },
     {
-     "role": "checkpoint",
-     "name": "bs_roformer_mag_anvuew.ckpt",
-     "url": "https://huggingface.co/anvuew/BS_RoFormer_mag/resolve/main/bs_roformer_mag_anvuew.ckpt",
-     "bytes": 204502577,
-     "sha256": "16792de7af1a5d5293debec24d4566b13b645e6707776234409cce7697ea933d"
+     "role": "config",
+     "name": "BS-Roformer-Resurrection-Config.yaml",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection-Config.yaml",
+     "bytes": 2633
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-Melband-Roformer BigBeta6X (by unwa)",
+   "category": "VOCALS",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 529200,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "big_beta6x.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6x.ckpt",
+     "bytes": 1708527586
+    },
+    {
+     "role": "config",
+     "name": "big_beta6x.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6x.yaml",
+     "bytes": 1724
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-Mel-Roformer big_beta7 (by unwa)",
@@ -208,7 +210,37 @@
      "bytes": 944675923,
      "sha256": "9d68b9a8689a3500c45d3418a7811934e557760db07285f483088a0965b0eb88"
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-BS-Roformer Revive 3e (by unwa)",
+   "category": "VOCALS",
+   "author": "unwa",
+   "model_type": "bs_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "bs_roformer_revive3e.ckpt",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Revive/resolve/main/bs_roformer_revive3e.ckpt",
+     "bytes": 639326600
+    },
+    {
+     "role": "config",
+     "name": "config.yaml",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Revive/resolve/main/config.yaml",
+     "bytes": 2382
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-Mel-Roformer voc_fv7 (by Gabox)",
@@ -239,147 +271,8 @@
      "bytes": 489571079,
      "sha256": "77b9e4b54802d670c02daceb30c61ec825dc54ca6c29c34b03cdd5e9f78382b6"
     }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer (by Becruily)",
-   "category": "VOCALS",
-   "author": "Becruily",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 352800,
-   "overlap": 2,
-   "instruments": [
-    "vocals",
-    "other"
    ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_vocals_becruily.yaml",
-     "url": "https://huggingface.co/becruily/mel-band-roformer-vocals/resolve/main/config_vocals_becruily.yaml",
-     "bytes": 1723
-    },
-    {
-     "role": "checkpoint",
-     "name": "mel_band_roformer_vocals_becruily.ckpt",
-     "url": "https://huggingface.co/becruily/mel-band-roformer-vocals/resolve/main/mel_band_roformer_vocals_becruily.ckpt",
-     "bytes": 913107578
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer voc_Fv5 (by Gabox)",
-   "category": "VOCALS",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 352800,
-   "overlap": 1,
-   "instruments": [
-    "Vocals",
-    "Instrumental"
-   ],
-   "target": "Vocals",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "voc_fv5.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv5.ckpt",
-     "bytes": 913026650
-    },
-    {
-     "role": "config",
-     "name": "voc_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
-     "bytes": 968
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer voc_Fv4 (by Gabox)",
-   "category": "VOCALS",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 352800,
-   "overlap": 1,
-   "instruments": [
-    "Vocals",
-    "Instrumental"
-   ],
-   "target": "Vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "voc_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
-     "bytes": 968
-    },
-    {
-     "role": "checkpoint",
-     "name": "voc_fv4.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv4.ckpt",
-     "bytes": 913026650
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer voc_Fv6 experimental (by Gabox)",
-   "category": "VOCALS",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 352800,
-   "overlap": 1,
-   "instruments": [
-    "Vocals",
-    "Instrumental"
-   ],
-   "target": "Vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "voc_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
-     "bytes": 968
-    },
-    {
-     "role": "checkpoint",
-     "name": "voc_fv6.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv6.ckpt",
-     "bytes": 913031195
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer voc_Fv7 beta 3 (by Gabox)",
-   "category": "VOCALS",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 352800,
-   "overlap": 1,
-   "instruments": [
-    "Vocals",
-    "Instrumental"
-   ],
-   "target": "Vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "voc_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
-     "bytes": 968
-    },
-    {
-     "role": "checkpoint",
-     "name": "vocfv7beta3.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/vocfv7beta3.ckpt",
-     "bytes": 913030778
-    }
-   ]
+   "ranked": true
   },
   {
    "name": "VOCALS-MelBand-Roformer voc_Fv7 beta 2 (by Gabox)",
@@ -407,7 +300,37 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/vocfv7beta2.ckpt",
      "bytes": 913030778
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer voc_Fv7 beta 3 (by Gabox)",
+   "category": "VOCALS",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 352800,
+   "overlap": 1,
+   "instruments": [
+    "Vocals",
+    "Instrumental"
+   ],
+   "target": "Vocals",
+   "files": [
+    {
+     "role": "config",
+     "name": "voc_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
+     "bytes": 968
+    },
+    {
+     "role": "checkpoint",
+     "name": "vocfv7beta3.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/vocfv7beta3.ckpt",
+     "bytes": 913030778
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-MelBand-Roformer voc_Fv7 beta (by Gabox)",
@@ -435,10 +358,43 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/vocfv7beta1.ckpt",
      "bytes": 913091027
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "VOCALS-MelBand-Roformer voc_Fv3 (by Gabox)",
+   "name": "VOCALS-BS-Roformer vocals_ft1 (by anvuew)",
+   "category": "VOCALS",
+   "author": "anvuew",
+   "model_type": "bs_roformer",
+   "tunable": true,
+   "chunk_size": 960000,
+   "overlap": 4,
+   "instruments": [
+    "vocals",
+    "instrument"
+   ],
+   "target": "vocals",
+   "added": "2026-10-06",
+   "released": "2026-04-17",
+   "files": [
+    {
+     "role": "config",
+     "name": "config.yaml",
+     "url": "https://huggingface.co/anvuew/BS-RoFormer/resolve/main/config.yaml",
+     "bytes": 1969
+    },
+    {
+     "role": "checkpoint",
+     "name": "bs_roformer_ft1_anvuew_sdr_12.55.ckpt",
+     "url": "https://huggingface.co/anvuew/BS-RoFormer/resolve/main/bs_roformer_ft1_anvuew_sdr_12.55.ckpt",
+     "bytes": 204493312,
+     "sha256": "60347271e8493fdff28ef558c3b2297afb869a1f4462594ed548038264bec395"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer voc_Fv4 (by Gabox)",
    "category": "VOCALS",
    "author": "Gabox",
    "model_type": "mel_band_roformer",
@@ -459,70 +415,15 @@
     },
     {
      "role": "checkpoint",
-     "name": "voc_Fv3.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_Fv3.ckpt",
+     "name": "voc_fv4.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv4.ckpt",
      "bytes": 913026650
     }
-   ]
-  },
-  {
-   "name": "VOCALS-Melband-Roformer BigBeta6 (by unwa)",
-   "category": "VOCALS",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 529200,
-   "overlap": 2,
-   "instruments": [
-    "vocals",
-    "other"
    ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "big_beta6.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6.ckpt",
-     "bytes": 1557078584
-    },
-    {
-     "role": "config",
-     "name": "big_beta6.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6.yaml",
-     "bytes": 1722
-    }
-   ]
+   "ranked": true
   },
   {
-   "name": "VOCALS-Melband-Roformer BigBeta6X (by unwa)",
-   "category": "VOCALS",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 529200,
-   "overlap": 2,
-   "instruments": [
-    "vocals",
-    "other"
-   ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "big_beta6x.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6x.ckpt",
-     "bytes": 1708527586
-    },
-    {
-     "role": "config",
-     "name": "big_beta6x.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6x.yaml",
-     "bytes": 1724
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer voc_gabox2 (by Gabox)",
+   "name": "VOCALS-MelBand-Roformer voc_Fv5 (by Gabox)",
    "category": "VOCALS",
    "author": "Gabox",
    "model_type": "mel_band_roformer",
@@ -537,9 +438,9 @@
    "files": [
     {
      "role": "checkpoint",
-     "name": "voc_gabox2.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox2.ckpt",
-     "bytes": 913031195
+     "name": "voc_fv5.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv5.ckpt",
+     "bytes": 913026650
     },
     {
      "role": "config",
@@ -547,119 +448,8 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
      "bytes": 968
     }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer Kim FT 2 Bleedless (by Unwa)",
-   "category": "VOCALS",
-   "author": "Unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 8,
-   "instruments": [
-    "vocals",
-    "other"
    ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_kimmel_unwa_ft.yaml",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
-     "bytes": 1722
-    },
-    {
-     "role": "checkpoint",
-     "name": "kimmel_unwa_ft2_bleedless.ckpt",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft2_bleedless.ckpt",
-     "bytes": 913101368
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer Kim FT 2 (by Unwa)",
-   "category": "VOCALS",
-   "author": "Unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 8,
-   "instruments": [
-    "vocals",
-    "other"
-   ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_kimmel_unwa_ft.yaml",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
-     "bytes": 1722
-    },
-    {
-     "role": "checkpoint",
-     "name": "kimmel_unwa_ft2.ckpt",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft2.ckpt",
-     "bytes": 913100690
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-Mel-Roformer FT 3 Preview (by unwa)",
-   "category": "VOCALS",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 8,
-   "instruments": [
-    "vocals",
-    "other"
-   ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "kimmel_unwa_ft3_prev.ckpt",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft3_prev.ckpt",
-     "bytes": 913090472
-    },
-    {
-     "role": "config",
-     "name": "config_kimmel_unwa_ft.yaml",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
-     "bytes": 1722
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer Kim FT (by Unwa)",
-   "category": "VOCALS",
-   "author": "Unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 8,
-   "instruments": [
-    "vocals",
-    "other"
-   ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_kimmel_unwa_ft.yaml",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
-     "bytes": 1722
-    },
-    {
-     "role": "checkpoint",
-     "name": "kimmel_unwa_ft.ckpt",
-     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft.ckpt",
-     "bytes": 913100690
-    }
-   ]
+   "ranked": true
   },
   {
    "name": "VOCALS-Melband-Roformer BigBeta5e (by unwa)",
@@ -687,16 +477,17 @@
      "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta5e.yaml",
      "bytes": 907
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "VOCALS-Mel-Roformer BigBeta4 (by unwa)",
+   "name": "VOCALS-MelBand-Roformer Kim FT 2 Bleedless (by Unwa)",
    "category": "VOCALS",
-   "author": "unwa",
+   "author": "Unwa",
    "model_type": "mel_band_roformer",
    "tunable": true,
    "chunk_size": 485100,
-   "overlap": 2,
+   "overlap": 8,
    "instruments": [
     "vocals",
     "other"
@@ -704,54 +495,56 @@
    "target": "vocals",
    "files": [
     {
-     "role": "checkpoint",
-     "name": "melband_roformer_big_beta4.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/melband_roformer_big_beta4.ckpt",
-     "bytes": 1574477088
+     "role": "config",
+     "name": "config_kimmel_unwa_ft.yaml",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
+     "bytes": 1722
     },
     {
-     "role": "config",
-     "name": "config_melbandroformer_big_beta4.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/raw/main/config_melbandroformer_big_beta4.yaml",
-     "bytes": 908
+     "role": "checkpoint",
+     "name": "kimmel_unwa_ft2_bleedless.ckpt",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft2_bleedless.ckpt",
+     "bytes": 913101368
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "VOCALS-BS-Roformer Resurrection (by unwa)",
+   "name": "VOCALS-MelBand-Roformer voc_Fv6 experimental (by Gabox)",
    "category": "VOCALS",
-   "author": "unwa",
-   "model_type": "bs_roformer",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
    "tunable": true,
-   "chunk_size": 785920,
-   "overlap": 2,
+   "chunk_size": 352800,
+   "overlap": 1,
    "instruments": [
-    "vocals",
-    "other"
+    "Vocals",
+    "Instrumental"
    ],
-   "target": "vocals",
+   "target": "Vocals",
    "files": [
     {
-     "role": "checkpoint",
-     "name": "BS-Roformer-Resurrection.ckpt",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection.ckpt",
-     "bytes": 204510749
+     "role": "config",
+     "name": "voc_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
+     "bytes": 968
     },
     {
-     "role": "config",
-     "name": "BS-Roformer-Resurrection-Config.yaml",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection-Config.yaml",
-     "bytes": 2633
+     "role": "checkpoint",
+     "name": "voc_fv6.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv6.ckpt",
+     "bytes": 913031195
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "VOCALS-BS-Roformer Revive 3e (by unwa)",
+   "name": "VOCALS-MelBand-Roformer (by Becruily)",
    "category": "VOCALS",
-   "author": "unwa",
-   "model_type": "bs_roformer",
+   "author": "Becruily",
+   "model_type": "mel_band_roformer",
    "tunable": true,
-   "chunk_size": 485100,
+   "chunk_size": 352800,
    "overlap": 2,
    "instruments": [
     "vocals",
@@ -760,18 +553,19 @@
    "target": "vocals",
    "files": [
     {
-     "role": "checkpoint",
-     "name": "bs_roformer_revive3e.ckpt",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Revive/resolve/main/bs_roformer_revive3e.ckpt",
-     "bytes": 639326600
+     "role": "config",
+     "name": "config_vocals_becruily.yaml",
+     "url": "https://huggingface.co/becruily/mel-band-roformer-vocals/resolve/main/config_vocals_becruily.yaml",
+     "bytes": 1723
     },
     {
-     "role": "config",
-     "name": "config.yaml",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Revive/resolve/main/config.yaml",
-     "bytes": 2382
+     "role": "checkpoint",
+     "name": "mel_band_roformer_vocals_becruily.ckpt",
+     "url": "https://huggingface.co/becruily/mel-band-roformer-vocals/resolve/main/mel_band_roformer_vocals_becruily.ckpt",
+     "bytes": 913107578
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-BS-Roformer Revive 2 (by unwa)",
@@ -799,7 +593,124 @@
      "url": "https://huggingface.co/pcunwa/BS-Roformer-Revive/resolve/main/config.yaml",
      "bytes": 2382
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-Mel-Roformer FT 3 Preview (by unwa)",
+   "category": "VOCALS",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 8,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "kimmel_unwa_ft3_prev.ckpt",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft3_prev.ckpt",
+     "bytes": 913090472
+    },
+    {
+     "role": "config",
+     "name": "config_kimmel_unwa_ft.yaml",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
+     "bytes": 1722
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-Melband-Roformer BigBeta6 (by unwa)",
+   "category": "VOCALS",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 529200,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "big_beta6.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6.ckpt",
+     "bytes": 1557078584
+    },
+    {
+     "role": "config",
+     "name": "big_beta6.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/big_beta6.yaml",
+     "bytes": 1722
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer Kim FT 2 (by Unwa)",
+   "category": "VOCALS",
+   "author": "Unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 8,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_kimmel_unwa_ft.yaml",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
+     "bytes": 1722
+    },
+    {
+     "role": "checkpoint",
+     "name": "kimmel_unwa_ft2.ckpt",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft2.ckpt",
+     "bytes": 913100690
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer Kim FT (by Unwa)",
+   "category": "VOCALS",
+   "author": "Unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 8,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_kimmel_unwa_ft.yaml",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/config_kimmel_unwa_ft.yaml",
+     "bytes": 1722
+    },
+    {
+     "role": "checkpoint",
+     "name": "kimmel_unwa_ft.ckpt",
+     "url": "https://huggingface.co/pcunwa/Kim-Mel-Band-Roformer-FT/resolve/main/kimmel_unwa_ft.ckpt",
+     "bytes": 913100690
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-BS-Roformer Revive (by unwa)",
@@ -827,7 +738,124 @@
      "url": "https://huggingface.co/pcunwa/BS-Roformer-Revive/resolve/main/config.yaml",
      "bytes": 2382
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer voc_gabox2 (by Gabox)",
+   "category": "VOCALS",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 352800,
+   "overlap": 1,
+   "instruments": [
+    "Vocals",
+    "Instrumental"
+   ],
+   "target": "Vocals",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "voc_gabox2.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox2.ckpt",
+     "bytes": 913031195
+    },
+    {
+     "role": "config",
+     "name": "voc_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
+     "bytes": 968
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer voc_Fv3 (by Gabox)",
+   "category": "VOCALS",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 352800,
+   "overlap": 1,
+   "instruments": [
+    "Vocals",
+    "Instrumental"
+   ],
+   "target": "Vocals",
+   "files": [
+    {
+     "role": "config",
+     "name": "voc_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_gabox.yaml",
+     "bytes": 968
+    },
+    {
+     "role": "checkpoint",
+     "name": "voc_Fv3.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_Fv3.ckpt",
+     "bytes": 913026650
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-Mel-Roformer BigBeta4 (by unwa)",
+   "category": "VOCALS",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "melband_roformer_big_beta4.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/resolve/main/melband_roformer_big_beta4.ckpt",
+     "bytes": 1574477088
+    },
+    {
+     "role": "config",
+     "name": "config_melbandroformer_big_beta4.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-big/raw/main/config_melbandroformer_big_beta4.yaml",
+     "bytes": 908
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "VOCALS-MelBand-Roformer (by KimberleyJSN)",
+   "category": "VOCALS",
+   "author": "KimberleyJSN",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 352800,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_vocals_mel_band_roformer_kj.yaml",
+     "url": "https://raw.githubusercontent.com/ZFTurbo/Music-Source-Separation-Training/main/configs/KimberleyJensen/config_vocals_mel_band_roformer_kj.yaml",
+     "bytes": 1721
+    },
+    {
+     "role": "checkpoint",
+     "name": "MelBandRoformer.ckpt",
+     "url": "https://huggingface.co/KimberleyJSN/melbandroformer/resolve/main/MelBandRoformer.ckpt",
+     "bytes": 913106900
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "VOCALS-BS-RoformerLargev1 (by unwa)",
@@ -1471,67 +1499,66 @@
      "bytes": 435006815,
      "sha256": "10255c02295bf3e3865d4ee50ff752d7b19b124ed5fd93b147babc4333eda3aa"
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "INST-BS-Roformer Leap Xe (by unwa)",
+   "name": "INST-BS-Roformer Resurrection (by unwa)",
    "category": "INST",
    "author": "unwa",
    "model_type": "bs_roformer",
    "tunable": true,
-   "chunk_size": 881559,
+   "chunk_size": 749259,
    "overlap": 2,
    "instruments": [
     "vocals",
     "other"
    ],
    "target": "other",
-   "added": "2026-10-06",
-   "released": "2026-09",
    "files": [
     {
-     "role": "config",
-     "name": "leap_xe_config_inst.yaml",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/Xe/leap_xe_config_inst.yaml",
-     "bytes": 2189
+     "role": "checkpoint",
+     "name": "BS-Roformer-Resurrection-Inst.ckpt",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection-Inst.ckpt",
+     "bytes": 204483033
     },
     {
-     "role": "checkpoint",
-     "name": "bs_leap_xe_inst.ckpt",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/Xe/bs_leap_xe_inst.ckpt",
-     "bytes": 267798769
+     "role": "config",
+     "name": "BS-Roformer-Resurrection-Inst-Config.yaml",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection-Inst-Config.yaml",
+     "bytes": 2632
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "INST-BS-Roformer Leap (by unwa)",
+   "name": "INST-Mel-Roformer v1e+ (by unwa)",
    "category": "INST",
    "author": "unwa",
-   "model_type": "bs_roformer",
+   "model_type": "mel_band_roformer",
    "tunable": true,
-   "chunk_size": 881559,
+   "chunk_size": 485100,
    "overlap": 2,
    "instruments": [
-    "vocals",
-    "other"
+    "other",
+    "vocals"
    ],
    "target": "other",
-   "added": "2026-10-06",
-   "released": "2026-08",
    "files": [
     {
-     "role": "config",
-     "name": "bs_leap_inst_conf.yaml",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/bs_leap_inst_conf.yaml",
-     "bytes": 1960
+     "role": "checkpoint",
+     "name": "inst_v1e_plus.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/inst_v1e_plus.ckpt",
+     "bytes": 913090472
     },
     {
-     "role": "checkpoint",
-     "name": "bs_roformer_leap_inst.ckpt",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/bs_roformer_leap_inst.ckpt",
-     "bytes": 238212233
+     "role": "config",
+     "name": "config_melbandroformer_inst.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/config_melbandroformer_inst.yaml",
+     "bytes": 906
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "INST-Mel-Roformer flowers_v10 (by Gabox)",
@@ -1562,7 +1589,8 @@
      "bytes": 489571079,
      "sha256": "fe3aa51927beb60ff345b8b672c11760fb8bdaa6039d8c61631416a5b4f7a047"
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "INST-Mel-Roformer inst_fv9 (by Gabox)",
@@ -1593,119 +1621,70 @@
      "bytes": 913091027,
      "sha256": "068d29a54e71f69ed871ca410e09b9877e153ad1439e825bd093573ea4de5762"
     }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer v1e (by unwa)",
-   "category": "INST",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "other",
-    "vocals"
    ],
-   "target": "other",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "inst_v1e.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/inst_v1e.ckpt",
-     "bytes": 913102724
-    },
-    {
-     "role": "config",
-     "name": "config_melbandroformer_inst.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/raw/main/config_melbandroformer_inst.yaml",
-     "bytes": 906
-    }
-   ]
+   "ranked": true
   },
   {
-   "name": "INST-Mel-Roformer v1e+ (by unwa)",
-   "category": "INST",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "other",
-    "vocals"
-   ],
-   "target": "other",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "inst_v1e_plus.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/inst_v1e_plus.ckpt",
-     "bytes": 913090472
-    },
-    {
-     "role": "config",
-     "name": "config_melbandroformer_inst.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/config_melbandroformer_inst.yaml",
-     "bytes": 906
-    }
-   ]
-  },
-  {
-   "name": "INST-BS-Roformer Resurrection (by unwa)",
+   "name": "INST-BS-Roformer Leap Xe (by unwa)",
    "category": "INST",
    "author": "unwa",
    "model_type": "bs_roformer",
    "tunable": true,
-   "chunk_size": 749259,
+   "chunk_size": 881559,
    "overlap": 2,
    "instruments": [
     "vocals",
     "other"
    ],
    "target": "other",
+   "added": "2026-10-06",
+   "released": "2026-09",
    "files": [
     {
-     "role": "checkpoint",
-     "name": "BS-Roformer-Resurrection-Inst.ckpt",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection-Inst.ckpt",
-     "bytes": 204483033
+     "role": "config",
+     "name": "leap_xe_config_inst.yaml",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/Xe/leap_xe_config_inst.yaml",
+     "bytes": 2189
     },
     {
-     "role": "config",
-     "name": "BS-Roformer-Resurrection-Inst-Config.yaml",
-     "url": "https://huggingface.co/pcunwa/BS-Roformer-Resurrection/resolve/main/BS-Roformer-Resurrection-Inst-Config.yaml",
-     "bytes": 2632
+     "role": "checkpoint",
+     "name": "bs_leap_xe_inst.ckpt",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/Xe/bs_leap_xe_inst.ckpt",
+     "bytes": 267798769
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "INST-Mel-Roformer INSTV8B (by Gabox)",
+   "name": "INST-BS-Roformer Leap (by unwa)",
    "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
+   "author": "unwa",
+   "model_type": "bs_roformer",
    "tunable": true,
-   "chunk_size": 485100,
+   "chunk_size": 881559,
    "overlap": 2,
    "instruments": [
-    "Instrumental",
-    "Vocals"
+    "vocals",
+    "other"
    ],
-   "target": "Instrumental",
+   "target": "other",
+   "added": "2026-10-06",
+   "released": "2026-08",
    "files": [
     {
-     "role": "checkpoint",
-     "name": "Inst_FV8b.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/Inst_FV8b.ckpt",
-     "bytes": 913027055
+     "role": "config",
+     "name": "bs_leap_inst_conf.yaml",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/bs_leap_inst_conf.yaml",
+     "bytes": 1960
     },
     {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
+     "role": "checkpoint",
+     "name": "bs_roformer_leap_inst.ckpt",
+     "url": "https://huggingface.co/pcunwa/BS-Roformer-Leap/resolve/main/bs_roformer_leap_inst.ckpt",
+     "bytes": 238212233
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "INST-MelBand-Roformer Inst_Fv8 v2 (by Gabox)",
@@ -1733,15 +1712,16 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
      "bytes": 920
     }
-   ]
+   ],
+   "ranked": true
   },
   {
-   "name": "INST-MelBand-Roformer (by Becruily)",
+   "name": "INST-Mel-Roformer INSTFV7Z (by Gabox)",
    "category": "INST",
-   "author": "Becruily",
+   "author": "Gabox",
    "model_type": "mel_band_roformer",
    "tunable": true,
-   "chunk_size": 352800,
+   "chunk_size": 485100,
    "overlap": 2,
    "instruments": [
     "Instrumental",
@@ -1750,18 +1730,19 @@
    "target": "Instrumental",
    "files": [
     {
-     "role": "config",
-     "name": "config_instrumental_becruily.yaml",
-     "url": "https://huggingface.co/becruily/mel-band-roformer-instrumental/resolve/main/config_instrumental_becruily.yaml",
-     "bytes": 1736
+     "role": "checkpoint",
+     "name": "Inst_GaboxFv7z.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/Inst_GaboxFv7z.ckpt",
+     "bytes": 913031195
     },
     {
-     "role": "checkpoint",
-     "name": "mel_band_roformer_instrumental_becruily.ckpt",
-     "url": "https://huggingface.co/becruily/mel-band-roformer-instrumental/resolve/main/mel_band_roformer_instrumental_becruily.ckpt",
-     "bytes": 913106900
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "INST-Mel-Roformer INSTV7 (by Gabox)",
@@ -1789,7 +1770,37 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
      "bytes": 920
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-MelBand-Roformer (by Becruily)",
+   "category": "INST",
+   "author": "Becruily",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 352800,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_instrumental_becruily.yaml",
+     "url": "https://huggingface.co/becruily/mel-band-roformer-instrumental/resolve/main/config_instrumental_becruily.yaml",
+     "bytes": 1736
+    },
+    {
+     "role": "checkpoint",
+     "name": "mel_band_roformer_instrumental_becruily.ckpt",
+     "url": "https://huggingface.co/becruily/mel-band-roformer-instrumental/resolve/main/mel_band_roformer_instrumental_becruily.ckpt",
+     "bytes": 913106900
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "INST-MelBand-Roformer Inst_Fv4 (by Gabox)",
@@ -1817,7 +1828,403 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
      "bytes": 920
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer INSTV8B (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "Inst_FV8b.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/Inst_FV8b.ckpt",
+     "bytes": 913027055
+    },
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer inst_fv7b (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "added": "2026-10-06",
+   "released": "2025-11-22",
+   "files": [
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    },
+    {
+     "role": "checkpoint",
+     "name": "inst_fv7b.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/inst_fv7b.ckpt",
+     "bytes": 913030778,
+     "sha256": "3cf9538616c835575eb07bef1fe4550b2406c852919a5644d22e9ae84a2ec6ba"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer rifforge (by Mesk)",
+   "category": "INST",
+   "author": "Mesk",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 733824,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "other",
+   "added": "2026-10-06",
+   "released": "2025-10-26",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_rifforge_full_mesk.yaml",
+     "url": "https://huggingface.co/meskvlla33/rifforge/resolve/main/config_rifforge_full_mesk.yaml",
+     "bytes": 1791
+    },
+    {
+     "role": "checkpoint",
+     "name": "rifforge_full_sdr_14.2436.ckpt",
+     "url": "https://huggingface.co/meskvlla33/rifforge/resolve/main/rifforge_full_sdr_14.2436.ckpt",
+     "bytes": 2011438773,
+     "sha256": "22f4eb72181d43336a1437b5d85079fa678d7b39d293283db56b3cb48908d5d5"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer inst_gabox3 (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "inst_gabox3.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox3.ckpt",
+     "bytes": 913026650
+    },
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer INSTV7N (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "INSTV7N.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV7N.ckpt",
+     "bytes": 913026650
+    },
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer INSTV6N (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "INSTV6N.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV6N.ckpt",
+     "bytes": 913026650
+    },
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer instv5n (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "added": "2026-10-06",
+   "released": "2025-02-12",
+   "files": [
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    },
+    {
+     "role": "checkpoint",
+     "name": "INSTV5N.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV5N.ckpt",
+     "bytes": 913026650,
+     "sha256": "175203923fac3e52ae00e7e37d41e8a7fef5020b6ee4e4144f4786daabc54b34"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer v1e (by unwa)",
+   "category": "INST",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "other",
+    "vocals"
+   ],
+   "target": "other",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "inst_v1e.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/inst_v1e.ckpt",
+     "bytes": 913102724
+    },
+    {
+     "role": "config",
+     "name": "config_melbandroformer_inst.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/raw/main/config_melbandroformer_inst.yaml",
+     "bytes": 906
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer inst_gaboxfv3 (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "added": "2026-10-06",
+   "released": "2025-01-26",
+   "files": [
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    },
+    {
+     "role": "checkpoint",
+     "name": "inst_gaboxFv3.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gaboxFv3.ckpt",
+     "bytes": 913026650,
+     "sha256": "fbb229209a8942d34664e19d2f4862e357ea3108a4e8c04b69aa0aba523a4481"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer v1 (by unwa)",
+   "category": "INST",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "other",
+    "vocals"
+   ],
+   "target": "other",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "melband_roformer_inst_v1.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/melband_roformer_inst_v1.ckpt",
+     "bytes": 913100690
+    },
+    {
+     "role": "config",
+     "name": "config_melbandroformer_inst.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/raw/main/config_melbandroformer_inst.yaml",
+     "bytes": 906
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer instv7plus (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "added": "2026-10-06",
+   "released": "2025-05-31",
+   "files": [
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    },
+    {
+     "role": "checkpoint",
+     "name": "instv7plus.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/instv7plus.ckpt",
+     "bytes": 913031195,
+     "sha256": "7baf1aab873e534a186e2dcf6e64bebad2dbf3e2c49337729487294539118232"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer inst_gaboxbv3 (by Gabox)",
+   "category": "INST",
+   "author": "Gabox",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "Instrumental",
+    "Vocals"
+   ],
+   "target": "Instrumental",
+   "added": "2026-10-06",
+   "released": "2025-03-04",
+   "files": [
+    {
+     "role": "config",
+     "name": "inst_gabox.yaml",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
+     "bytes": 920
+    },
+    {
+     "role": "checkpoint",
+     "name": "inst_gaboxBv3.ckpt",
+     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gaboxBv3.ckpt",
+     "bytes": 913026650,
+     "sha256": "5578545e094e584835b3184310ed1b12072f15d4b6ed8f4359ecc17358a66676"
+    }
+   ],
+   "ranked": true
+  },
+  {
+   "name": "INST-Mel-Roformer v2 (by unwa)",
+   "category": "INST",
+   "author": "unwa",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 485100,
+   "overlap": 2,
+   "instruments": [
+    "other",
+    "vocals"
+   ],
+   "target": "other",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "melband_roformer_inst_v2.ckpt",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/melband_roformer_inst_v2.ckpt",
+     "bytes": 1574477088
+    },
+    {
+     "role": "config",
+     "name": "config_melbandroformer_inst_v2.yaml",
+     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/raw/main/config_melbandroformer_inst_v2.yaml",
+     "bytes": 907
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "INST-Mel-Roformer Neo_InstVFX (by neoculture)",
@@ -1876,90 +2283,6 @@
    ]
   },
   {
-   "name": "INST-Mel-Roformer INSTV7N (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "INSTV7N.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV7N.ckpt",
-     "bytes": 913026650
-    },
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer INSTFV7Z (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "Inst_GaboxFv7z.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/Inst_GaboxFv7z.ckpt",
-     "bytes": 913031195
-    },
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer INSTV6N (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "INSTV6N.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV6N.ckpt",
-     "bytes": 913026650
-    },
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    }
-   ]
-  },
-  {
    "name": "INST-Mel-Roformer INSTV5 (by Gabox)",
    "category": "INST",
    "author": "Gabox",
@@ -2005,34 +2328,6 @@
      "role": "checkpoint",
      "name": "INSTV6.ckpt",
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV6.ckpt",
-     "bytes": 913026650
-    },
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer inst_gabox3 (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "inst_gabox3.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox3.ckpt",
      "bytes": 913026650
     },
     {
@@ -2128,34 +2423,6 @@
    ]
   },
   {
-   "name": "INST-Mel-Roformer v1 (by unwa)",
-   "category": "INST",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "other",
-    "vocals"
-   ],
-   "target": "other",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "melband_roformer_inst_v1.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/melband_roformer_inst_v1.ckpt",
-     "bytes": 913100690
-    },
-    {
-     "role": "config",
-     "name": "config_melbandroformer_inst.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/raw/main/config_melbandroformer_inst.yaml",
-     "bytes": 906
-    }
-   ]
-  },
-  {
    "name": "INST-Mel-Roformer v1+ (by unwa)",
    "category": "INST",
    "author": "unwa",
@@ -2180,65 +2447,6 @@
      "name": "config_melbandroformer_inst.yaml",
      "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/config_melbandroformer_inst.yaml",
      "bytes": 906
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer v2 (by unwa)",
-   "category": "INST",
-   "author": "unwa",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "other",
-    "vocals"
-   ],
-   "target": "other",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "melband_roformer_inst_v2.ckpt",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/resolve/main/melband_roformer_inst_v2.ckpt",
-     "bytes": 1574477088
-    },
-    {
-     "role": "config",
-     "name": "config_melbandroformer_inst_v2.yaml",
-     "url": "https://huggingface.co/pcunwa/Mel-Band-Roformer-Inst/raw/main/config_melbandroformer_inst_v2.yaml",
-     "bytes": 907
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer inst_fv7b (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "added": "2026-10-06",
-   "released": "2025-11-22",
-   "files": [
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    },
-    {
-     "role": "checkpoint",
-     "name": "inst_fv7b.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/inst_fv7b.ckpt",
-     "bytes": 913030778,
-     "sha256": "3cf9538616c835575eb07bef1fe4550b2406c852919a5644d22e9ae84a2ec6ba"
     }
    ]
   },
@@ -2274,37 +2482,6 @@
    ]
   },
   {
-   "name": "INST-Mel-Roformer rifforge (by Mesk)",
-   "category": "INST",
-   "author": "Mesk",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 733824,
-   "overlap": 2,
-   "instruments": [
-    "vocals",
-    "other"
-   ],
-   "target": "other",
-   "added": "2026-10-06",
-   "released": "2025-10-26",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_rifforge_full_mesk.yaml",
-     "url": "https://huggingface.co/meskvlla33/rifforge/resolve/main/config_rifforge_full_mesk.yaml",
-     "bytes": 1791
-    },
-    {
-     "role": "checkpoint",
-     "name": "rifforge_full_sdr_14.2436.ckpt",
-     "url": "https://huggingface.co/meskvlla33/rifforge/resolve/main/rifforge_full_sdr_14.2436.ckpt",
-     "bytes": 2011438773,
-     "sha256": "22f4eb72181d43336a1437b5d85079fa678d7b39d293283db56b3cb48908d5d5"
-    }
-   ]
-  },
-  {
    "name": "INST-Mel-Roformer rifforge_beta (by Mesk)",
    "category": "INST",
    "author": "Mesk",
@@ -2332,37 +2509,6 @@
      "url": "https://huggingface.co/meskvlla33/rifforge_beta_v1/resolve/main/rifforge_mesk_beta_v1_sdr_14.0127.ckpt",
      "bytes": 913108043,
      "sha256": "9ee1111a1beb812250a700e3d65936d5b9db3934fb41b3fa1db1bc1b09aafdbf"
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer instv7plus (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "added": "2026-10-06",
-   "released": "2025-05-31",
-   "files": [
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    },
-    {
-     "role": "checkpoint",
-     "name": "instv7plus.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/instv7plus.ckpt",
-     "bytes": 913031195,
-     "sha256": "7baf1aab873e534a186e2dcf6e64bebad2dbf3e2c49337729487294539118232"
     }
    ]
   },
@@ -2425,37 +2571,6 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/experimental/INSTV10.ckpt",
      "bytes": 913026650,
      "sha256": "6eb987c3fd93c66adfea2e4284d1da668e80a98f75b6436b4be454780a728182"
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer inst_gaboxbv3 (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "added": "2026-10-06",
-   "released": "2025-03-04",
-   "files": [
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    },
-    {
-     "role": "checkpoint",
-     "name": "inst_gaboxBv3.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gaboxBv3.ckpt",
-     "bytes": 913026650,
-     "sha256": "5578545e094e584835b3184310ed1b12072f15d4b6ed8f4359ecc17358a66676"
     }
    ]
   },
@@ -2553,68 +2668,6 @@
    ]
   },
   {
-   "name": "INST-Mel-Roformer instv5n (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "added": "2026-10-06",
-   "released": "2025-02-12",
-   "files": [
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    },
-    {
-     "role": "checkpoint",
-     "name": "INSTV5N.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/INSTV5N.ckpt",
-     "bytes": 913026650,
-     "sha256": "175203923fac3e52ae00e7e37d41e8a7fef5020b6ee4e4144f4786daabc54b34"
-    }
-   ]
-  },
-  {
-   "name": "INST-Mel-Roformer inst_gaboxfv3 (by Gabox)",
-   "category": "INST",
-   "author": "Gabox",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 485100,
-   "overlap": 2,
-   "instruments": [
-    "Instrumental",
-    "Vocals"
-   ],
-   "target": "Instrumental",
-   "added": "2026-10-06",
-   "released": "2025-01-26",
-   "files": [
-    {
-     "role": "config",
-     "name": "inst_gabox.yaml",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gabox.yaml",
-     "bytes": 920
-    },
-    {
-     "role": "checkpoint",
-     "name": "inst_gaboxFv3.ckpt",
-     "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gaboxFv3.ckpt",
-     "bytes": 913026650,
-     "sha256": "fbb229209a8942d34664e19d2f4862e357ea3108a4e8c04b69aa0aba523a4481"
-    }
-   ]
-  },
-  {
    "name": "INST-BS-Roformer neo_inst_beta (by neoculture)",
    "category": "INST",
    "author": "neoculture",
@@ -2673,7 +2726,8 @@
      "bytes": 202574227,
      "sha256": "6182fc508c0791d5a2ee4121b51f5ae9115a1bdbd209a8688b0620f4fd17fdca"
     }
-   ]
+   ],
+   "ranked": true
   },
   {
    "name": "KARAOKE-BS-Roformer (by anvuew)",
@@ -2701,7 +2755,39 @@
      "url": "https://huggingface.co/anvuew/karaoke_bs_roformer/resolve/main/karaoke_bs_roformer_anvuew.yaml",
      "bytes": 1973
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "KARAOKE-BS-Roformer (by becruily & frazer)",
+   "category": "KARAOKE",
+   "author": "becruily & frazer",
+   "model_type": "bs_roformer",
+   "tunable": true,
+   "chunk_size": 882000,
+   "overlap": 4,
+   "instruments": [
+    "Vocals",
+    "Instrumental"
+   ],
+   "target": "Vocals",
+   "added": "2026-10-06",
+   "released": "2025-10",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_karaoke_frazer_becruily.yaml",
+     "url": "https://huggingface.co/becruily/bs-roformer-karaoke/resolve/main/config_karaoke_frazer_becruily.yaml",
+     "bytes": 1903
+    },
+    {
+     "role": "checkpoint",
+     "name": "bs_roformer_karaoke_frazer_becruily.ckpt",
+     "url": "https://huggingface.co/becruily/bs-roformer-karaoke/resolve/main/bs_roformer_karaoke_frazer_becruily.ckpt",
+     "bytes": 204436907
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "KARAOKE-MelBand-Roformer (by becruily)",
@@ -2760,36 +2846,6 @@
      "bytes": 1625,
      "backup": "https://huggingface.co/dshdaaf/separation-models/resolve/main/KARAOKE/KARAOKE-MelBand-Roformer_by_aufr33_viperx/config_mel_band_roformer_karaoke.yaml",
      "sha256": "1ad4ebd15653108e9c7d9dc3b989a1a42929a240b78447dffe384067b11de10a"
-    }
-   ]
-  },
-  {
-   "name": "KARAOKE-BS-Roformer (by becruily & frazer)",
-   "category": "KARAOKE",
-   "author": "becruily & frazer",
-   "model_type": "bs_roformer",
-   "tunable": true,
-   "chunk_size": 882000,
-   "overlap": 4,
-   "instruments": [
-    "Vocals",
-    "Instrumental"
-   ],
-   "target": "Vocals",
-   "added": "2026-10-06",
-   "released": "2025-10",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_karaoke_frazer_becruily.yaml",
-     "url": "https://huggingface.co/becruily/bs-roformer-karaoke/resolve/main/config_karaoke_frazer_becruily.yaml",
-     "bytes": 1903
-    },
-    {
-     "role": "checkpoint",
-     "name": "bs_roformer_karaoke_frazer_becruily.ckpt",
-     "url": "https://huggingface.co/becruily/bs-roformer-karaoke/resolve/main/bs_roformer_karaoke_frazer_becruily.ckpt",
-     "bytes": 204436907
     }
    ]
   },
@@ -3640,7 +3696,37 @@
      "bytes": 204496717,
      "sha256": "b4dfa4c4aa251c0afc303e5d512d904a1c2255e51d8d0dbfbddb18d740563d42"
     }
-   ]
+   ],
+   "ranked": true
+  },
+  {
+   "name": "DE-REVERB-MelBand-Roformer aggr./v2/19.1729 (by anvuew)",
+   "category": "DE",
+   "author": "anvuew",
+   "model_type": "mel_band_roformer",
+   "tunable": false,
+   "chunk_size": 352800,
+   "overlap": 2,
+   "instruments": [
+    "noreverb",
+    "reverb"
+   ],
+   "target": "noreverb",
+   "files": [
+    {
+     "role": "checkpoint",
+     "name": "dereverb_mel_band_roformer_anvuew_sdr_19.1729.ckpt",
+     "url": "https://huggingface.co/anvuew/dereverb_mel_band_roformer/resolve/main/dereverb_mel_band_roformer_anvuew_sdr_19.1729.ckpt",
+     "bytes": 913107578
+    },
+    {
+     "role": "config",
+     "name": "dereverb_mel_band_roformer_anvuew.yaml",
+     "url": "https://huggingface.co/anvuew/dereverb_mel_band_roformer/resolve/main/dereverb_mel_band_roformer_anvuew.yaml",
+     "bytes": 1846
+    }
+   ],
+   "ranked": true
   },
   {
    "name": "DE-REVERB-MDX23C (by aufr33 & jarredou)",
@@ -3671,34 +3757,6 @@
      "bytes": 3953,
      "backup": "https://huggingface.co/dshdaaf/separation-models/resolve/main/DE/DE-REVERB-MDX23C_by_aufr33_jarredou/config_dereverb_mdx23c.yaml",
      "sha256": "a0cf11216913ab8941afb96fa7ab333390d1740b4a74a5d2f4b81ca8a218c756"
-    }
-   ]
-  },
-  {
-   "name": "DE-REVERB-MelBand-Roformer aggr./v2/19.1729 (by anvuew)",
-   "category": "DE",
-   "author": "anvuew",
-   "model_type": "mel_band_roformer",
-   "tunable": false,
-   "chunk_size": 352800,
-   "overlap": 2,
-   "instruments": [
-    "noreverb",
-    "reverb"
-   ],
-   "target": "noreverb",
-   "files": [
-    {
-     "role": "checkpoint",
-     "name": "dereverb_mel_band_roformer_anvuew_sdr_19.1729.ckpt",
-     "url": "https://huggingface.co/anvuew/dereverb_mel_band_roformer/resolve/main/dereverb_mel_band_roformer_anvuew_sdr_19.1729.ckpt",
-     "bytes": 913107578
-    },
-    {
-     "role": "config",
-     "name": "dereverb_mel_band_roformer_anvuew.yaml",
-     "url": "https://huggingface.co/anvuew/dereverb_mel_band_roformer/resolve/main/dereverb_mel_band_roformer_anvuew.yaml",
-     "bytes": 1846
     }
    ]
   },

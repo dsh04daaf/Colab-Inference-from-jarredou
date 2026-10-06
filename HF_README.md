@@ -27,6 +27,8 @@ se renombre o se acredite de otra forma, abre un issue o una discusión y se har
 | VOCALS-BS-Roformer_1297 (by viperx) | viperx | `model_bs_roformer_ep_317_sdr_12.9755.ckpt` | 610 MiB | `5b84f37e8d444c8c…` | https://github.com/TRvlvr/model_repo |
 | VOCALS-BS-Roformer_1296 (by viperx) | viperx | `model_bs_roformer_ep_368_sdr_12.9628.ckpt` | 610 MiB | `f6c94864adfb73bb…` | https://github.com/TRvlvr/model_repo |
 | VOCALS-BS-Roformer_1296 (by viperx) | viperx | `model_bs_roformer_ep_368_sdr_12.9628.yaml` | 0 MiB | `aea599b3f9bd4892…` | https://raw.githubusercontent.com/TRvlvr/application_data |
+| VOCALS-Male Female-BS-RoFormer Male Female Beta 7_2889 (by aufr33) | aufr33 | `bs_roformer_male_female_by_aufr33_sdr_7.2889.ckpt` | 503 MiB | `3cf11736d1b42a11…` | https://huggingface.co/RareSirMix/AIModelRehosting |
+| VOCALS-Male Female-BS-RoFormer Male Female Beta 7_2889 (by aufr33) | aufr33 | `config_chorus_male_female_bs_roformer.yaml` | 0 MiB | `e952a90412ed3e9d…` | https://huggingface.co/Sucial/Chorus_Male_Female_BS_Roformer |
 | KARAOKE-MelBand-Roformer (by aufr33 & viperx) | aufr33 & viperx | `mel_band_roformer_karaoke_aufr33_viperx_sdr_10.1956.ckpt` | 871 MiB | `1de20d459332fe88…` | https://huggingface.co/Eddycrack864/audio-separator-models |
 | KARAOKE-MelBand-Roformer (by aufr33 & viperx) | aufr33 & viperx | `config_mel_band_roformer_karaoke.yaml` | 0 MiB | `1ad4ebd15653108e…` | https://github.com/deton24/Colab-for-new-MDX_UVR_models |
 | OTHER-BS-Roformer_1053 (by viperx) | viperx | `model_bs_roformer_ep_937_sdr_10.5309.ckpt` | 375 MiB | `a2e825a03bc908cb…` | https://github.com/TRvlvr/model_repo |
@@ -43,8 +45,6 @@ se renombre o se acredite de otra forma, abre un issue o una discusión y se har
 | DE-REVERB-MDX23C (by aufr33 & jarredou) | aufr33 & jarredou | `config_dereverb_mdx23c.yaml` | 0 MiB | `a0cf11216913ab89…` | https://huggingface.co/Eddycrack864/audio-separator-models |
 | DEBLEED-MelBand-Roformer (by unwa/97chris) | unwa/97chris | `mel_band_roformer_bleed_suppressor_v1.ckpt` | 871 MiB | `a9a9d10faa7f8997…` | https://huggingface.co/Eddycrack864/audio-separator-models |
 | DEBLEED-MelBand-Roformer (by unwa/97chris) | unwa/97chris | `config_mel_band_roformer_bleed_suppressor_v1.yaml` | 0 MiB | `bca5755de9946ded…` | https://huggingface.co/Eddycrack864/audio-separator-models |
-| VOCALS-Male Female-BS-RoFormer Male Female Beta 7_2889 (by aufr33) | aufr33 | `bs_roformer_male_female_by_aufr33_sdr_7.2889.ckpt` | 503 MiB | `3cf11736d1b42a11…` | https://huggingface.co/RareSirMix/AIModelRehosting |
-| VOCALS-Male Female-BS-RoFormer Male Female Beta 7_2889 (by aufr33) | aufr33 | `config_chorus_male_female_bs_roformer.yaml` | 0 MiB | `e952a90412ed3e9d…` | https://huggingface.co/Sucial/Chorus_Male_Female_BS_Roformer |
 | PHANTOM-CENTER-HTDemucs (by wesleyr36) | wesleyr36 | `model_htdemucs_ep_21_sdr_13.6970.ckpt` | 160 MiB | `b9970dca36a15c0d…` | https://huggingface.co/baicai1145/pymss |
 | PHANTOM-CENTER-HTDemucs (by wesleyr36) | wesleyr36 | `model_htdemucs_ep_21_sdr_13.6970.yaml` | 0 MiB | `cdc9f166e42ef308…` | https://huggingface.co/baicai1145/pymss |
 

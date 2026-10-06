@@ -16,9 +16,11 @@ print = functools.partial(print, flush=True)
 ROOT = '/content/Music-Source-Separation-Training'
 HERE = os.path.dirname(os.path.abspath(__file__))
 CATALOG = os.path.join(HERE, 'models.json')
+SAFE_CHUNK = 352800  # fallback when the GPU runs out of memory with the author's chunk size
 MAX_OVERLAP = 8  # jarredou: "normally there's no point going over 8"
 
-# requirements fix by santilli_ (from jarredou's notebook); pandas left unpinned: 2.2.2 has no Python 3.13 wheel
+# requirements fix by santilli_ (from jarredou's notebook); pandas left unpinned: 2.2.2 has no Python 3.13 wheel;
+# openunmix added: demucs 4.1 no longer pulls it and the HTDemucs models import it
 REQUIREMENTS = """mutagen==1.47.0
 ml_collections==1.1.0
 numpy>=1.26.0
@@ -34,6 +36,7 @@ beartype
 rotary_embedding_torch==0.3.5
 einops
 demucs
+openunmix
 torchmetrics==0.11.4
 spafe==0.3.2
 protobuf
@@ -64,6 +67,7 @@ T = {
         'fmt': 'Formato de {}: {} · {} bits · {} Hz',
         'fmt_same_sr': '44100 (el del modelo)',
         'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
+        'oom': '⚠️ La GPU se quedó sin memoria con los ajustes del autor. Reintentando con chunk_size={} y overlap menor…',
         'is_inst': 'El archivo terminado en "_instrumental" es el instrumental.',
     },
     'en': {
@@ -86,6 +90,7 @@ T = {
         'fmt': 'Format of {}: {} · {} bit · {} Hz',
         'fmt_same_sr': "44100 (the model's)",
         'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
+        'oom': "⚠️ The GPU ran out of memory with the author's settings. Retrying with chunk_size={} and a lower overlap…",
         'is_inst': 'The file ending in "_instrumental" is the instrumental.',
     },
 }
@@ -121,12 +126,13 @@ def _stream(cmd, cwd=None):
     import time
     p = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=0,
                          env={**os.environ, 'PYTHONUNBUFFERED': '1'})
-    buf, last, pending = b'', 0.0, None
+    buf, last, pending, tail = b'', 0.0, None, b''
     while True:
         chunk = os.read(p.stdout.fileno(), 4096)
         if not chunk:
             break
         buf += chunk
+        tail = (tail + chunk)[-20000:]
         while True:
             i = min([x for x in (buf.find(b'\r'), buf.find(b'\n')) if x >= 0], default=-1)
             if i < 0:
@@ -143,6 +149,7 @@ def _stream(cmd, cwd=None):
                     last = time.time()
     if pending:
         print(pending.ljust(100))
+    _stream.oom = b'out of memory' in tail.lower()
     return p.wait()
 
 
@@ -151,9 +158,15 @@ def _fetch(url, dest):
     return code == 0 and os.path.exists(dest + '.part')
 
 
-def _download(f, t):
+def _slug(name):
+    import re
+    return re.sub(r'[^A-Za-z0-9._+-]+', '_', name).strip('_')
+
+
+def _download(f, t, folder):
     from urllib.parse import quote
-    dest = os.path.join(ROOT, 'ckpts', f['name'])
+    os.makedirs(folder, exist_ok=True)
+    dest = os.path.join(folder, f['name'])
     want = f.get('bytes')
     if os.path.exists(dest) and (not want or os.path.getsize(dest) == want or f['role'] == 'config'):
         print(t['cached'].format(f['name']))
@@ -259,7 +272,8 @@ def _match_format(input_files, folder, since, export_format, t, quiet=False):
 
 def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None):
     print(t['model'].format(m['name'], m['author']))
-    paths = {f['role']: _download(f, t) for f in m['files']}
+    folder = os.path.join(ROOT, 'ckpts', _slug(m['name']))
+    paths = {f['role']: _download(f, t, folder) for f in m['files']}
     st = resolve_settings(m, quality, chunk_size, overlap)
     if st:
         _conf_edit(paths['config'], *st)
@@ -277,6 +291,10 @@ def _separate(m, input_folder, output_folder, export_format, quality, chunk_size
     if use_tta:
         cmd.append('--use_tta')
     code = _stream(cmd, cwd=ROOT)
+    if code != 0 and _stream.oom and st and st[0] > SAFE_CHUNK:
+        print(t['oom'].format(SAFE_CHUNK))
+        _conf_edit(paths['config'], SAFE_CHUNK, min(st[1], 4))
+        code = _stream(cmd, cwd=ROOT)
     if code != 0:
         print(t['failed'].format(code))
         raise SystemExit(1)
@@ -325,8 +343,9 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
     else:
         extract = goal in ('acapella', 'karaoke', 'dereverb', 'denoise')
     _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t)
-    if goal == 'instrumental' and m.get('target') == 'other':
+    if (goal == 'instrumental' and m.get('target') == 'other') or goal == 'acapella':
         for f in glob.glob(os.path.join(output_folder, '*_other.*')):
             os.replace(f, '_instrumental.'.join(f.rsplit('_other.', 1)))
-        print(t['is_inst'])
+        if goal == 'instrumental':
+            print(t['is_inst'])
     print(t['done'].format(output_folder))

@@ -43,6 +43,8 @@ jarredou's GitHub and Hugging Face accounts no longer exist, which broke the not
 - adds a simple mode: pick what you want (acapella, instrumental, stems…) and the recommended model and its settings are used;
 - loads **each model's own settings** (the chunk size and overlap its author published) instead of one value for all;
 - backs up the models that only survive as third-party re-uploads ([{HF}](https://huggingface.co/{HF})) and falls back to that copy when a link dies;
+- adds the newer community models (Leap Xe, Big Beta 7, deux, voc_fv7…): every model in the catalog is checked against the code
+  (parameter names and shapes) before it is listed;
 - checks every source link weekly.
 
 The plain restoration of jarredou's original notebooks lives in [dsh04daaf/colab](https://github.com/dsh04daaf/colab).

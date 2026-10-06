@@ -341,9 +341,10 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
     if goal == 'manual':
         extract = extract_instrumental
     else:
-        extract = goal in ('acapella', 'karaoke', 'dereverb', 'denoise')
+        # a vocal model serves the instrumental goal too: the instrumental is what is left after removing the vocals
+        extract = goal in ('acapella', 'karaoke', 'dereverb', 'denoise') or (goal == 'instrumental' and m.get('target') != 'other' and bool(m.get('target')))
     _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t)
-    if (goal == 'instrumental' and m.get('target') == 'other') or goal == 'acapella':
+    if goal in ('instrumental', 'acapella'):
         for f in glob.glob(os.path.join(output_folder, '*_other.*')):
             os.replace(f, '_instrumental.'.join(f.rsplit('_other.', 1)))
         if goal == 'instrumental':

@@ -7,7 +7,7 @@ cat = json.load(open(f'{HERE}/models.json', encoding='utf-8'))
 names = [m['name'] for m in cat['models']]
 L = {
  'es': dict(file='Colab_Inference_ES.ipynb', fauto='auto (igual que el archivo original)', auto='Recomendado (según lo que elegí arriba)',
-  goals=[('acapella', 'Acapella (voz) + instrumental'), ('instrumental', 'Instrumental (el más lleno)'),
+  goals=[('acapella', 'Acapella (voz) + instrumental'), ('instrumental', 'Instrumental'),
          ('stems', 'Stems: voz, batería, bajo, guitarra, piano, otros'), ('drum_pieces', 'Batería por piezas: bombo, caja, toms, hi-hat, platos'),
          ('karaoke', 'Karaoke: separar voz principal de coros'), ('dereverb', 'Quitar reverb'), ('denoise', 'Quitar ruido')],
   quality=[('max', 'Máxima (recomendada)'), ('fast', 'Rápida')],
@@ -27,7 +27,12 @@ Basado en el notebook original de **jarredou** & deton. Este repo lo conserva, l
   t2='# 2. Separar', want='que_quiero', inp='carpeta_entrada', out='carpeta_salida', fmt='formato',
   adv='### Avanzado (opcional — cada modelo ya trae sus propios ajustes, no hace falta cambiarlos)',
   model='modelo', qual='calidad', chunk='chunk_size', ov='overlap', tta='usar_tta', ext='extraer_instrumental',
-  notes="""## ¿Qué significan los ajustes?
+  notes="""## ¿Qué modelo se usa para acapellas e instrumentales?
+Por defecto, el **MelBand Roformer de KimberleyJSN**. Es una elección de uso, no de métricas: quien mantiene este Colab lo usa para acapellas y se queda con su resultado.
+
+Según las métricas de la [guía de deton24](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), puntúan más alto **Leap Xe de unwa** (voces) y **deux de becruily** (instrumental). Están los segundos y primeros de sus listas en *Avanzado → modelo*, por si quieres comparar. No hay un mejor modelo para todo: depende de la canción.
+
+## ¿Qué significan los ajustes?
 **Cada modelo tiene su propia configuración** (la que publicó su autor) y se carga sola al elegirlo. En `auto` no hay nada que tocar; al terminar se imprime qué valores se usaron.
 
 - **Calidad** — *Máxima* sube el `overlap` a 8, que es el tope útil según jarredou («normalmente no tiene sentido pasar de 8»); tarda más. *Rápida* usa el `overlap` del autor.
@@ -45,7 +50,7 @@ Algunos modelos (SW de 6 stems, DrumSep, SCNet…) no admiten cambiar chunk/over
 - **Se quedó sin memoria** — usa calidad *Rápida* o un `chunk_size` más pequeño.
 - Al terminar: *Entorno de ejecución → Desconectar y eliminar entorno*, para no gastar tus créditos."""),
  'en': dict(file='Colab_Inference_EN.ipynb', fauto='auto (same as the source file)', auto='Recommended (for what I picked above)',
-  goals=[('acapella', 'Acapella (vocals) + instrumental'), ('instrumental', 'Instrumental (fullest)'),
+  goals=[('acapella', 'Acapella (vocals) + instrumental'), ('instrumental', 'Instrumental'),
          ('stems', 'Stems: vocals, drums, bass, guitar, piano, other'), ('drum_pieces', 'Drum pieces: kick, snare, toms, hi-hat, cymbals'),
          ('karaoke', 'Karaoke: split lead vocal from backing'), ('dereverb', 'Remove reverb'), ('denoise', 'Remove noise')],
   quality=[('max', 'Maximum (recommended)'), ('fast', 'Fast')],
@@ -65,7 +70,12 @@ Based on the original notebook by **jarredou** & deton. This repo preserves it, 
   t2='# 2. Separate', want='i_want', inp='input_folder', out='output_folder', fmt='export_format',
   adv='### Advanced (optional — every model already ships its own settings, no need to change them)',
   model='model', qual='quality', chunk='chunk_size', ov='overlap', tta='use_tta', ext='extract_instrumental',
-  notes="""## What do the settings mean?
+  notes="""## Which model is used for acapellas and instrumentals?
+By default, **KimberleyJSN's MelBand Roformer**. It is a choice from use, not from metrics: the maintainer of this Colab uses it for acapellas and prefers its result.
+
+By the metrics in [deton24's guide](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), **unwa's Leap Xe** (vocals) and **becruily's deux** (instrumental) score higher. They sit second and first in their lists under *Advanced → model*, in case you want to compare. There is no single best model: it depends on the song.
+
+## What do the settings mean?
 **Every model has its own configuration** (the one its author published) and it loads by itself when you pick the model. On `auto` there is nothing to touch; the values used are printed when it finishes.
 
 - **Quality** — *Maximum* raises `overlap` to 8, the useful ceiling according to jarredou ("normally there's no point going over 8"); it takes longer. *Fast* uses the author's `overlap`.

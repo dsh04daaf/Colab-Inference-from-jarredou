@@ -6,10 +6,10 @@
  },
  "goals": {
   "acapella": [
-   "VOCALS-BS-Roformer Leap Xe (by unwa)"
+   "VOCALS-MelBand-Roformer (by KimberleyJSN)"
   ],
   "instrumental": [
-   "INST-VOC-Mel-Roformer deux (by becruily)"
+   "VOCALS-MelBand-Roformer (by KimberleyJSN)"
   ],
   "stems": [
    "6STEMS-BS-Roformer-SW"
@@ -29,6 +29,34 @@
   ]
  },
  "models": [
+  {
+   "name": "VOCALS-MelBand-Roformer (by KimberleyJSN)",
+   "category": "VOCALS",
+   "author": "KimberleyJSN",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 352800,
+   "overlap": 2,
+   "instruments": [
+    "vocals",
+    "other"
+   ],
+   "target": "vocals",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_vocals_mel_band_roformer_kj.yaml",
+     "url": "https://raw.githubusercontent.com/ZFTurbo/Music-Source-Separation-Training/main/configs/KimberleyJensen/config_vocals_mel_band_roformer_kj.yaml",
+     "bytes": 1721
+    },
+    {
+     "role": "checkpoint",
+     "name": "MelBandRoformer.ckpt",
+     "url": "https://huggingface.co/KimberleyJSN/melbandroformer/resolve/main/MelBandRoformer.ckpt",
+     "bytes": 913106900
+    }
+   ]
+  },
   {
    "name": "VOCALS-BS-Roformer Leap Xe (by unwa)",
    "category": "VOCALS",
@@ -210,34 +238,6 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/vocals/voc_fv7.ckpt",
      "bytes": 489571079,
      "sha256": "77b9e4b54802d670c02daceb30c61ec825dc54ca6c29c34b03cdd5e9f78382b6"
-    }
-   ]
-  },
-  {
-   "name": "VOCALS-MelBand-Roformer (by KimberleyJSN)",
-   "category": "VOCALS",
-   "author": "KimberleyJSN",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 352800,
-   "overlap": 2,
-   "instruments": [
-    "vocals",
-    "other"
-   ],
-   "target": "vocals",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_vocals_mel_band_roformer_kj.yaml",
-     "url": "https://raw.githubusercontent.com/ZFTurbo/Music-Source-Separation-Training/main/configs/KimberleyJensen/config_vocals_mel_band_roformer_kj.yaml",
-     "bytes": 1721
-    },
-    {
-     "role": "checkpoint",
-     "name": "MelBandRoformer.ckpt",
-     "url": "https://huggingface.co/KimberleyJSN/melbandroformer/resolve/main/MelBandRoformer.ckpt",
-     "bytes": 913106900
     }
    ]
   },
@@ -1443,6 +1443,37 @@
    ]
   },
   {
+   "name": "INST-VOC-Mel-Roformer deux (by becruily)",
+   "category": "INST",
+   "author": "becruily",
+   "model_type": "mel_band_roformer",
+   "tunable": true,
+   "chunk_size": 573300,
+   "overlap": 2,
+   "instruments": [
+    "Vocals",
+    "Instrumental"
+   ],
+   "target": null,
+   "added": "2026-10-06",
+   "released": "2025-12-29",
+   "files": [
+    {
+     "role": "config",
+     "name": "config_deux_becruily.yaml",
+     "url": "https://huggingface.co/becruily/mel-band-roformer-deux/resolve/main/config_deux_becruily.yaml",
+     "bytes": 1175
+    },
+    {
+     "role": "checkpoint",
+     "name": "becruily_deux.ckpt",
+     "url": "https://huggingface.co/becruily/mel-band-roformer-deux/resolve/main/becruily_deux.ckpt",
+     "bytes": 435006815,
+     "sha256": "10255c02295bf3e3865d4ee50ff752d7b19b124ed5fd93b147babc4333eda3aa"
+    }
+   ]
+  },
+  {
    "name": "INST-BS-Roformer Leap Xe (by unwa)",
    "category": "INST",
    "author": "unwa",
@@ -1530,37 +1561,6 @@
      "url": "https://huggingface.co/GaboxR67/MelBandRoformers/resolve/main/melbandroformers/instrumental/inst_gaboxFlowersV10.ckpt",
      "bytes": 489571079,
      "sha256": "fe3aa51927beb60ff345b8b672c11760fb8bdaa6039d8c61631416a5b4f7a047"
-    }
-   ]
-  },
-  {
-   "name": "INST-VOC-Mel-Roformer deux (by becruily)",
-   "category": "INST",
-   "author": "becruily",
-   "model_type": "mel_band_roformer",
-   "tunable": true,
-   "chunk_size": 573300,
-   "overlap": 2,
-   "instruments": [
-    "Vocals",
-    "Instrumental"
-   ],
-   "target": null,
-   "added": "2026-10-06",
-   "released": "2025-12-29",
-   "files": [
-    {
-     "role": "config",
-     "name": "config_deux_becruily.yaml",
-     "url": "https://huggingface.co/becruily/mel-band-roformer-deux/resolve/main/config_deux_becruily.yaml",
-     "bytes": 1175
-    },
-    {
-     "role": "checkpoint",
-     "name": "becruily_deux.ckpt",
-     "url": "https://huggingface.co/becruily/mel-band-roformer-deux/resolve/main/becruily_deux.ckpt",
-     "bytes": 435006815,
-     "sha256": "10255c02295bf3e3865d4ee50ff752d7b19b124ed5fd93b147babc4333eda3aa"
     }
    ]
   },
@@ -4348,5 +4348,9 @@
     }
    ]
   }
- ]
+ ],
+ "metric_picks": {
+  "acapella": "VOCALS-BS-Roformer Leap Xe (by unwa)",
+  "instrumental": "INST-VOC-Mel-Roformer deux (by becruily)"
+ }
 }

@@ -124,6 +124,11 @@
    "scheduler.pt"
   ]
  },
+ "DryPaintMan": {
+  "DryPaintMan/MelBandRoformer-Duet": [
+   "model_mel_band_roformer_ep_0_sdr_7.9319_fixed.ckpt"
+  ]
+ },
  "Eddycrack864": {
   "Eddycrack864/Amazarashi-AI-Voice": [],
   "Eddycrack864/Ano-chan-AI-Voice": [],
@@ -536,6 +541,41 @@
   ],
   "RareSirMix/GeminiMIDICode": [],
   "RareSirMix/RVC2Models": []
+ },
+ "SYH99999": {
+  "SYH99999/MelBandRoformer4StemFTLarge": [
+   "MelBandRoformer4StemFTLarge.ckpt",
+   "ver2.ckpt"
+  ],
+  "SYH99999/MelBandRoformerBigSYHFTV1Fast": [
+   "MelBandRoformerBigSYHFTV1.ckpt"
+  ],
+  "SYH99999/MelBandRoformerMergedSYHFTBeta1": [
+   "merge_syhft.ckpt"
+  ],
+  "SYH99999/MelBandRoformerSYHFT": [
+   "MelBandRoformerSYHFT.ckpt"
+  ],
+  "SYH99999/MelBandRoformerSYHFTB1": [
+   "model.ckpt",
+   "model2.ckpt",
+   "model3.ckpt"
+  ],
+  "SYH99999/MelBandRoformerSYHFTV2": [
+   "MelBandRoformerSYHFTV2.ckpt"
+  ],
+  "SYH99999/MelBandRoformerSYHFTV2.5": [
+   "MelBandRoformerSYHFTV2.5.ckpt/MelBandRoformerSYHFTV2.5.ckpt"
+  ],
+  "SYH99999/MelBandRoformerSYHFTV3Epsilon": [
+   "MelBandRoformerSYHFTV3Epsilon.ckpt"
+  ],
+  "SYH99999/autotrain-translator-2261971987": [],
+  "SYH99999/bs_roformer_4stems_ft": [],
+  "SYH99999/checkpoint-1500": [],
+  "SYH99999/checkpoint-390": [],
+  "SYH99999/output": [],
+  "SYH99999/test": []
  },
  "Sucial": {
   "Sucial/Aspiration_Mel_Band_Roformer": [
@@ -1114,6 +1154,14 @@
  "enerjazzer": {
   "enerjazzer/BS-ROFO-SW-Fixed": [
    "BS-Rofo-SW-Fixed.ckpt"
+  ]
+ },
+ "jazzpear": {
+  "jazzpear/audio_separation_models_trained_by_jazzpear": [
+   "sound_effects/mdx23c/mdx23c_sfxremover_jazzpear.ckpt",
+   "sound_effects/mdx23c/model_sfxsplitter.ckpt",
+   "sound_effects/mel_band_roformer/model_musicless.ckpt",
+   "surround/6ch/surround_scnet.ckpt"
   ]
  },
  "meskvlla33": {

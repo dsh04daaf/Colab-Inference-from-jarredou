@@ -61,6 +61,9 @@ T = {
         'done': '✅ Listo. Resultados en: {}',
         'failed': '❌ La separación falló (código {}). Revisa el mensaje de arriba.',
         'no_drums': '❌ No se encontró la pista de batería del paso anterior.',
+        'fmt': 'Formato de {}: {} · {} bits · {} Hz',
+        'fmt_same_sr': '44100 (el del modelo)',
+        'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
         'is_inst': 'El archivo terminado en "_instrumental" es el instrumental.',
     },
     'en': {
@@ -80,6 +83,9 @@ T = {
         'done': '✅ Done. Results in: {}',
         'failed': '❌ Separation failed (exit code {}). Check the message above.',
         'no_drums': '❌ The drums stem from the previous step was not found.',
+        'fmt': 'Format of {}: {} · {} bit · {} Hz',
+        'fmt_same_sr': "44100 (the model's)",
+        'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
         'is_inst': 'The file ending in "_instrumental" is the instrumental.',
     },
 }
@@ -110,9 +116,39 @@ def setup(lang='es'):
     print(t['install_ok'])
 
 
+def _stream(cmd, cwd=None):
+    """Run a command showing its output live (Colab does not display a child process's output by itself)."""
+    import time
+    p = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=0,
+                         env={**os.environ, 'PYTHONUNBUFFERED': '1'})
+    buf, last, pending = b'', 0.0, None
+    while True:
+        chunk = os.read(p.stdout.fileno(), 4096)
+        if not chunk:
+            break
+        buf += chunk
+        while True:
+            i = min([x for x in (buf.find(b'\r'), buf.find(b'\n')) if x >= 0], default=-1)
+            if i < 0:
+                break
+            line, sep_, buf = buf[:i].decode('utf-8', 'replace'), buf[i:i + 1], buf[i + 1:]
+            if sep_ == b'\n':
+                if line.strip() or pending:
+                    print((line if line.strip() else pending or '').ljust(100))
+                pending = None
+            elif line.strip():  # progress bar update
+                pending = line
+                if time.time() - last > 1:
+                    print(line.ljust(100), end='\r')
+                    last = time.time()
+    if pending:
+        print(pending.ljust(100))
+    return p.wait()
+
+
 def _fetch(url, dest):
-    r = subprocess.run(['curl', '-L', '--fail', '--retry', '3', '-sS', '-o', dest + '.part', url])
-    return r.returncode == 0 and os.path.exists(dest + '.part')
+    code = _stream(['curl', '-L', '--fail', '--retry', '3', '--progress-bar', '-o', dest + '.part', url])
+    return code == 0 and os.path.exists(dest + '.part')
 
 
 def _download(f, t):
@@ -171,7 +207,57 @@ def resolve_settings(m, quality='max', chunk_size='auto', overlap='auto'):
     return chunk, ov
 
 
-def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t):
+def _source_format(path):
+    """(container, subtype, samplerate) of an input file; lossy or unreadable inputs map to 16-bit WAV."""
+    try:
+        import soundfile as sf
+        i = sf.info(path)
+        sub = {'DOUBLE': 'FLOAT'}.get(i.subtype, i.subtype)
+        if sub in ('PCM_16', 'PCM_24', 'PCM_32', 'FLOAT'):  # any lossless PCM container (WAV, WAVEX, AIFF, FLAC…)
+            if i.format == 'FLAC':
+                return 'flac', sub if sub in ('PCM_16', 'PCM_24') else 'PCM_24', i.samplerate
+            return 'wav', sub, i.samplerate
+        return 'wav', 'PCM_16', i.samplerate
+    except Exception:
+        return 'wav', 'PCM_16', None
+
+
+def _convert(path, container, subtype, samplerate):
+    """Rewrite one result file in the requested container / bit depth / sample rate."""
+    import soundfile as sf
+    data, sr = sf.read(path, dtype='float32', always_2d=True)
+    if samplerate and samplerate != sr:
+        import soxr
+        data, sr = soxr.resample(data, sr, samplerate, quality='VHQ'), samplerate
+    dest = os.path.splitext(path)[0] + '.' + container
+    tmp = dest + '.tmp.' + container
+    sf.write(tmp, data, sr, subtype=subtype)
+    if dest != path:
+        os.remove(path)
+    os.replace(tmp, dest)
+    return dest
+
+
+def _match_format(input_files, folder, since, export_format, t, quiet=False):
+    """Convert every file the engine just wrote in `folder` (auto = same format as its source song)."""
+    fixed = None if export_format == 'auto' else (export_format.split(' ')[0], export_format.split(' ')[1], None)
+    stems = sorted(((os.path.splitext(os.path.basename(f))[0], f) for f in input_files), key=lambda x: -len(x[0]))
+    shown = set()
+    for out in sorted(glob.glob(os.path.join(folder, '*.wav'))):
+        if os.path.getmtime(out) < since:
+            continue
+        src = next((f for s, f in stems if os.path.basename(out).startswith(s + '_')), None)
+        if not src:
+            continue
+        fmt = fixed or _source_format(src)
+        _convert(out, *fmt)
+        if src not in shown and not quiet:
+            shown.add(src)
+            print(t['fmt'].format(os.path.basename(src), fmt[0].upper(), fmt[1].replace('PCM_', '').replace('FLOAT', '32 float'),
+                                  fmt[2] or t['fmt_same_sr']))
+
+
+def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None):
     print(t['model'].format(m['name'], m['author']))
     paths = {f['role']: _download(f, t) for f in m['files']}
     st = resolve_settings(m, quality, chunk_size, overlap)
@@ -181,22 +267,25 @@ def _separate(m, input_folder, output_folder, export_format, quality, chunk_size
     else:
         print(t['settings_fixed'].format(use_tta))
     os.makedirs(output_folder, exist_ok=True)
+    import time
+    since = time.time() - 2
+    print(t['working'])
     cmd = [sys.executable, 'inference.py', '--model_type', m['model_type'], '--config_path', paths['config'],
            '--start_check_point', paths['checkpoint'], '--input_folder', input_folder, '--store_dir', output_folder]
     if extract:
         cmd.append('--extract_instrumental')
-    if export_format.startswith('flac'):
-        cmd += ['--flac_file', '--pcm_type', export_format.split(' ')[1]]
     if use_tta:
         cmd.append('--use_tta')
-    r = subprocess.run(cmd, cwd=ROOT)
-    if r.returncode != 0:
-        print(t['failed'].format(r.returncode))
+    code = _stream(cmd, cwd=ROOT)
+    if code != 0:
+        print(t['failed'].format(code))
         raise SystemExit(1)
+    if export_format != 'wav FLOAT':
+        _match_format(source_files or glob.glob(os.path.join(input_folder, '*')), output_folder, since, export_format, t, quiet=bool(source_files))
 
 
 def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/input',
-        output_folder='/content/drive/MyDrive/output', export_format='wav FLOAT', quality='max',
+        output_folder='/content/drive/MyDrive/output', export_format='auto', quality='max',
         chunk_size='auto', overlap='auto', use_tta=False, extract_instrumental=True, lang='es'):
     t = T[lang]
     cat = catalog()
@@ -211,11 +300,13 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
         steps = [by[n] for n in cat['goals'][goal]]
     if goal == 'drum_pieces':
         print(t['step'].format(1, 2, steps[0]['name']))
-        _separate(steps[0], input_folder, output_folder, export_format, quality, 'auto', 'auto', use_tta, False, t)
+        import time
+        since = time.time() - 2
+        _separate(steps[0], input_folder, output_folder, 'wav FLOAT', quality, 'auto', 'auto', use_tta, False, t)
         drums_in = '/content/_drums_in'
         shutil.rmtree(drums_in, ignore_errors=True)
         os.makedirs(drums_in)
-        found = [f for f in glob.glob(os.path.join(output_folder, '*_drums.*'))]
+        found = [f for f in glob.glob(os.path.join(output_folder, '*_drums.wav')) if os.path.getmtime(f) >= since]
         if not found:
             print(t['no_drums'])
             raise SystemExit(1)
@@ -223,7 +314,9 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
             shutil.copy(f, drums_in)
         print(t['step'].format(2, 2, steps[1]['name']))
         out2 = os.path.join(output_folder, 'drum_pieces')
-        _separate(steps[1], drums_in, out2, export_format, quality, 'auto', 'auto', use_tta, False, t)
+        _separate(steps[1], drums_in, out2, export_format, quality, 'auto', 'auto', use_tta, False, t, source_files=files)
+        if export_format != 'wav FLOAT':
+            _match_format(files, output_folder, since, export_format, t)
         print(t['done'].format(output_folder))
         return
     m = steps[0]
@@ -234,6 +327,6 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
     _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t)
     if goal == 'instrumental' and m.get('target') == 'other':
         for f in glob.glob(os.path.join(output_folder, '*_other.*')):
-            os.replace(f, f.replace('_other.', '_instrumental.'))
+            os.replace(f, '_instrumental.'.join(f.rsplit('_other.', 1)))
         print(t['is_inst'])
     print(t['done'].format(output_folder))

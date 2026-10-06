@@ -6,7 +6,7 @@ RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
 cat = json.load(open(f'{HERE}/models.json', encoding='utf-8'))
 names = [m['name'] for m in cat['models']]
 L = {
- 'es': dict(file='Colab_Inference_ES.ipynb', auto='Recomendado (según lo que elegí arriba)',
+ 'es': dict(file='Colab_Inference_ES.ipynb', fauto='auto (igual que el archivo original)', auto='Recomendado (según lo que elegí arriba)',
   goals=[('acapella', 'Acapella (voz) + instrumental'), ('instrumental', 'Instrumental (el más lleno)'),
          ('stems', 'Stems: voz, batería, bajo, guitarra, piano, otros'), ('drum_pieces', 'Batería por piezas: bombo, caja, toms, hi-hat, platos'),
          ('karaoke', 'Karaoke: separar voz principal de coros'), ('dereverb', 'Quitar reverb'), ('denoise', 'Quitar ruido')],
@@ -33,6 +33,7 @@ Basado en el notebook original de **jarredou** & deton. Este repo lo conserva, l
 - **Calidad** — *Máxima* sube el `overlap` a 8, que es el tope útil según jarredou («normalmente no tiene sentido pasar de 8»); tarda más. *Rápida* usa el `overlap` del autor.
 - **chunk_size** — el tamaño de los trozos en que se corta la canción para procesarla. Cada modelo se entrenó con uno; `auto` usa el del autor.
 - **overlap** — cuánto se pisan esos trozos entre sí. Más alto = uniones más limpias y más tiempo.
+- **Formato** — `auto` guarda cada resultado igual que su canción original: mismo tipo (WAV/FLAC), mismos bits y misma frecuencia. Los modelos trabajan por dentro a 44 100 Hz, así que una canción de 48 000 Hz se devuelve a 48 000 Hz para que encaje en tu proyecto, sin que eso añada calidad. Un MP3 o M4A sale como WAV de 16 bits.
 - **TTA** — procesa la canción tres veces (normal, canales invertidos, fase invertida) y promedia. Tarda el triple y la mejora rara vez se oye.
 - **extraer_instrumental** — solo en modo manual: además del stem del modelo, guarda lo que queda al restarlo de la mezcla.
 
@@ -43,7 +44,7 @@ Algunos modelos (SW de 6 stems, DrumSep, SCNet…) no admiten cambiar chunk/over
 - **No aparece mi Drive** — vuelve a ejecutar *1. Preparar*.
 - **Se quedó sin memoria** — usa calidad *Rápida* o un `chunk_size` más pequeño.
 - Al terminar: *Entorno de ejecución → Desconectar y eliminar entorno*, para no gastar tus créditos."""),
- 'en': dict(file='Colab_Inference_EN.ipynb', auto='Recommended (for what I picked above)',
+ 'en': dict(file='Colab_Inference_EN.ipynb', fauto='auto (same as the source file)', auto='Recommended (for what I picked above)',
   goals=[('acapella', 'Acapella (vocals) + instrumental'), ('instrumental', 'Instrumental (fullest)'),
          ('stems', 'Stems: vocals, drums, bass, guitar, piano, other'), ('drum_pieces', 'Drum pieces: kick, snare, toms, hi-hat, cymbals'),
          ('karaoke', 'Karaoke: split lead vocal from backing'), ('dereverb', 'Remove reverb'), ('denoise', 'Remove noise')],
@@ -70,6 +71,7 @@ Based on the original notebook by **jarredou** & deton. This repo preserves it, 
 - **Quality** — *Maximum* raises `overlap` to 8, the useful ceiling according to jarredou ("normally there's no point going over 8"); it takes longer. *Fast* uses the author's `overlap`.
 - **chunk_size** — the size of the pieces the song is cut into for processing. Each model was trained with one; `auto` uses the author's.
 - **overlap** — how much those pieces overlap. Higher = cleaner joins and more time.
+- **Format** — `auto` saves each result like its source song: same type (WAV/FLAC), same bit depth and same sample rate. The models work at 44,100 Hz internally, so a 48,000 Hz song is returned at 48,000 Hz to fit your project, without that adding quality. An MP3 or M4A comes out as 16-bit WAV.
 - **TTA** — processes the song three times (normal, swapped channels, inverted phase) and averages. Three times slower and the gain is rarely audible.
 - **extract_instrumental** — manual mode only: besides the model's stem, also saves what is left after subtracting it from the mix.
 
@@ -108,7 +110,7 @@ sep.setup('{lang}')
 {t['want']} = {goals[0]!r} #@param {goals!r}
 {t['inp']} = '/content/drive/MyDrive/input' #@param {{type:"string"}}
 {t['out']} = '/content/drive/MyDrive/output' #@param {{type:"string"}}
-{t['fmt']} = 'wav FLOAT' #@param ['wav FLOAT', 'flac PCM_16', 'flac PCM_24']
+{t['fmt']} = {t['fauto']!r} #@param {[t['fauto'], 'wav PCM_16', 'wav PCM_24', 'wav FLOAT', 'flac PCM_16', 'flac PCM_24']!r}
 #@markdown ---
 #@markdown {t['adv']}
 {t['model']} = {t['auto']!r} #@param {[t['auto']] + names!r}
@@ -122,7 +124,7 @@ sys.path.insert(0, '/content/sepcolab')
 import sep
 sep.run(goal={dict((g[1], g[0]) for g in t['goals'])!r}[{t['want']}],
         model='auto' if {t['model']} == {t['auto']!r} else {t['model']},
-        input_folder={t['inp']}, output_folder={t['out']}, export_format={t['fmt']},
+        input_folder={t['inp']}, output_folder={t['out']}, export_format='auto' if {t['fmt']} == {t['fauto']!r} else {t['fmt']},
         quality={dict((q[1], q[0]) for q in t['quality'])!r}[{t['qual']}],
         chunk_size={t['chunk']}, overlap={t['ov']}, use_tta={t['tta']}, extract_instrumental={t['ext']}, lang='{lang}')
 """

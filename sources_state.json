@@ -1129,6 +1129,9 @@
   ]
  },
  "becruily": {
+  "becruily/bs-roformer-delimit": [
+   "becruily_delimit.ckpt"
+  ],
   "becruily/bs-roformer-karaoke": [
    "bs_roformer_karaoke_frazer_becruily.ckpt"
   ],
@@ -1161,6 +1164,7 @@
    "sound_effects/mdx23c/mdx23c_sfxremover_jazzpear.ckpt",
    "sound_effects/mdx23c/model_sfxsplitter.ckpt",
    "sound_effects/mel_band_roformer/model_musicless.ckpt",
+   "stereoize/anime/jazzpear_melroformer_stereoizer_anime.ckpt",
    "surround/6ch/surround_scnet.ckpt"
   ]
  },

@@ -69,7 +69,6 @@ T = {
         'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
         'oom': '⚠️ La GPU se quedó sin memoria con los ajustes del autor. Reintentando con chunk_size={} y overlap menor…',
         'is_inst': 'El archivo terminado en "_instrumental" es el instrumental.',
-        'top_band': '   el modelo trabaja a {} Hz: lo que el original tiene arriba de {} Hz (hasta {} Hz) se devolvió a las pistas, sin corte',
     },
     'en': {
         'cloning': 'Downloading the code…',
@@ -93,7 +92,6 @@ T = {
         'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
         'oom': "⚠️ The GPU ran out of memory with the author's settings. Retrying with chunk_size={} and a lower overlap…",
         'is_inst': 'The file ending in "_instrumental" is the instrumental.',
-        'top_band': "   the model works at {} Hz: what the original has above {} Hz (up to {} Hz) was given back to the stems, no cut",
     },
 }
 AUDIO_EXT = ('.wav', '.flac', '.mp3', '.m4a', '.aiff', '.aif', '.ogg', '.opus', '.wma')
@@ -237,11 +235,10 @@ def _source_format(path):
         return 'wav', 'PCM_16', None
 
 
-def _convert(path, container, subtype, samplerate, data=None, sr=None):
+def _convert(path, container, subtype, samplerate):
     """Rewrite one result file in the requested container / bit depth / sample rate."""
     import soundfile as sf
-    if data is None:
-        data, sr = sf.read(path, dtype='float32', always_2d=True)
+    data, sr = sf.read(path, dtype='float32', always_2d=True)
     if samplerate and samplerate != sr:
         import soxr
         data, sr = soxr.resample(data, sr, samplerate, quality='VHQ'), samplerate
@@ -254,105 +251,23 @@ def _convert(path, container, subtype, samplerate, data=None, sr=None):
     return dest
 
 
-HI_BAND = (18000, 21000)  # band (Hz, just below the model's cut) whose energy decides how the missing top end is shared
-HI_SMOOTH = 0.05  # seconds of smoothing for the per-stem share
-
-
-def _restore_top(src, outs):
-    """Give the stems back the part of the source above the model's Nyquist (e.g. 22.05-88.2 kHz of a 176.4 kHz file).
-
-    The engine resamples every song to the model's rate (44.1 kHz), so stems are band-limited even when they are
-    written back at the source rate. Here the source's top band (source minus its own down/up resampling, the exact
-    part the model never saw) is split between the stems by how much each one carries just below the cut, frame by
-    frame; the shares add up to 1, so the stems still add up to the source. Returns (iterator of (out, data at the
-    source rate), model_rate) or None when there is nothing to restore."""
-    import numpy as np
-    import soundfile as sf
-    import soxr
-    from scipy.signal import butter, sosfilt
-    try:
-        info = sf.info(src)
-    except Exception:
-        return None  # unreadable source (m4a…)
-    if info.format not in ('WAV', 'WAVEX', 'W64', 'RF64', 'AIFF', 'FLAC', 'CAF'):
-        return None  # lossy source (mp3, ogg…): no real top band to give back
-    stems = {o: sf.read(o, dtype='float32', always_2d=True) for o in outs}
-    sr_m = next(iter(stems.values()))[1]
-    if info.samplerate <= sr_m or any(v[1] != sr_m for v in stems.values()):
-        return None
-    x, sr_x = sf.read(src, dtype='float32', always_2d=True)
-    n, ch = x.shape
-    # same chain as the engine on the way down (librosa = soxr HQ) and as the stems on the way up (VHQ)
-    top = x - _fit(soxr.resample(soxr.resample(x, sr_x, sr_m, quality='HQ'), sr_m, sr_x, quality='VHQ'), n)
-    del x
-    lo, hi = HI_BAND[0] * sr_m / 44100, HI_BAND[1] * sr_m / 44100
-    sos = butter(8, [lo, hi], btype='bandpass', fs=sr_m, output='sos')
-    win = max(1, int(sr_m * HI_SMOOTH))
-    kern = np.ones(win, dtype=np.float32) / win
-    names = list(stems)
-    energy = []
-    for o in names:
-        d = stems[o][0]
-        e = (sosfilt(sos, d, axis=0) ** 2).sum(axis=1)
-        energy.append(np.convolve(e, kern, mode='same'))
-    energy = np.stack(energy)
-    # silence just below the cut: what is up there (cymbal air, noise) goes to the instrumental / "other" stem
-    fallback = [i for i, o in enumerate(names) if os.path.splitext(o)[0].endswith(('_instrumental', '_other'))]
-    prior = np.zeros(len(names), dtype=np.float32)
-    prior[fallback or list(range(len(names)))] = 1.0
-    energy += 1e-12 * prior[:, None]
-    share = energy / energy.sum(axis=0, keepdims=True)
-    pos = np.arange(share.shape[1])
-
-    def gen():  # one stem at a time at the source rate, so a long hi-res mix does not need all of them in RAM
-        for i, o in enumerate(names):
-            up = _fit(soxr.resample(stems.pop(o)[0], sr_m, sr_x, quality='VHQ'), n)
-            if up.shape[1] != ch:  # mono stem from a stereo song or the other way round
-                up = np.repeat(up.mean(axis=1, keepdims=True), ch, axis=1)
-            for a in range(0, n, 1 << 22):
-                b = min(n, a + (1 << 22))
-                g = np.interp(np.arange(a, b) * (sr_m / sr_x), pos, share[i]).astype(np.float32)
-                up[a:b] += top[a:b] * g[:, None]
-            yield o, up
-    return gen(), sr_m
-
-
-def _fit(a, n):
-    """Trim or zero-pad a (frames, channels) array to n frames."""
-    import numpy as np
-    if len(a) >= n:
-        return a[:n]
-    return np.concatenate([a, np.zeros((n - len(a), a.shape[1]), dtype=a.dtype)])
-
-
-def _match_format(input_files, folder, since, export_format, t, quiet=False, format_from=None):
-    """Convert every file the engine just wrote in `folder` (auto = same format as its source song).
-
-    When the source has a higher sample rate than the model, its top band is given back to the stems
-    (_restore_top). `format_from` maps an input file to the file whose format is copied (default: itself)."""
+def _match_format(input_files, folder, since, export_format, t, quiet=False):
+    """Convert every file the engine just wrote in `folder` (auto = same format as its source song)."""
     fixed = None if export_format == 'auto' else (export_format.split(' ')[0], export_format.split(' ')[1], None)
     stems = sorted(((os.path.splitext(os.path.basename(f))[0], f) for f in input_files), key=lambda x: -len(x[0]))
-    groups = {}
+    shown = set()
     for out in sorted(glob.glob(os.path.join(folder, '*.wav'))):
         if os.path.getmtime(out) < since:
             continue
         src = next((f for s, f in stems if os.path.basename(out).startswith(s + '_')), None)
-        if src:
-            groups.setdefault(src, []).append(out)
-    for src, outs in groups.items():
-        fmt = fixed or _source_format(format_from(src) if format_from else src)
-        restored = _restore_top(src, outs) if fmt[2] else None
-        if restored:
-            for out, data in restored[0]:
-                _convert(out, fmt[0], fmt[1], fmt[2], data, fmt[2])
-        else:
-            for out in outs:
-                _convert(out, *fmt)
-        if not quiet:
+        if not src:
+            continue
+        fmt = fixed or _source_format(src)
+        _convert(out, *fmt)
+        if src not in shown and not quiet:
+            shown.add(src)
             print(t['fmt'].format(os.path.basename(src), fmt[0].upper(), fmt[1].replace('PCM_', '').replace('FLOAT', '32 float'),
                                   fmt[2] or t['fmt_same_sr']))
-            if restored:
-                print(t['top_band'].format(restored[1], restored[1] // 2, fmt[2] // 2))
 
 
 def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None):
@@ -406,15 +321,10 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
         import time
         since = time.time() - 2
         _separate(steps[0], input_folder, output_folder, 'wav FLOAT', quality, 'auto', 'auto', use_tta, False, t)
-        # first stems in their final format (full band at the source rate), so the drum pieces take their
-        # top band from the full-band drums, not from the whole song
-        if export_format != 'wav FLOAT':
-            _match_format(files, output_folder, since, export_format, t)
         drums_in = '/content/_drums_in'
         shutil.rmtree(drums_in, ignore_errors=True)
         os.makedirs(drums_in)
-        found = [f for f in glob.glob(os.path.join(output_folder, '*_drums.*'))
-                 if os.path.getmtime(f) >= since and '.tmp.' not in f]
+        found = [f for f in glob.glob(os.path.join(output_folder, '*_drums.wav')) if os.path.getmtime(f) >= since]
         if not found:
             print(t['no_drums'])
             raise SystemExit(1)
@@ -422,7 +332,9 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
             shutil.copy(f, drums_in)
         print(t['step'].format(2, 2, steps[1]['name']))
         out2 = os.path.join(output_folder, 'drum_pieces')
-        _separate(steps[1], drums_in, out2, export_format, quality, 'auto', 'auto', use_tta, False, t)
+        _separate(steps[1], drums_in, out2, export_format, quality, 'auto', 'auto', use_tta, False, t, source_files=files)
+        if export_format != 'wav FLOAT':
+            _match_format(files, output_folder, since, export_format, t)
         print(t['done'].format(output_folder))
         return
     m = steps[0]

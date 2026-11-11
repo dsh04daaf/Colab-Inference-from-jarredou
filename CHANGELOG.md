@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-11 (later)
+- **Reverted** the top-band restoration below. The part above the model's cut cannot be separated by the model,
+  only shared by a rule, so some cymbal "air" could end up in the vocal stem. Back to the plain model output:
+  hi-res songs come back at their own rate but cut at the model's band (≈22 kHz).
+
 ## 2026-11-11
 - **Full spectrum for hi-res songs.** The engine resamples every song to the model's rate (44.1 kHz), so with
   `auto` format a 96/176.4/192 kHz song came back at its own rate but cut at 22 kHz. Now the part of the original

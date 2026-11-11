@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-11 — 32-bit float WAV by default
+- **Default output is now 32-bit float WAV at 44.1 kHz** ("wav FLOAT 32 bits (recomendado: no recorta picos)"). Not more
+  quality: separated stems can go over 0 dBFS (resampling to 44.1 kHz turns a master's inter-sample/true peaks into real
+  samples, and removing the vocals can leave the instrumental louder than the mix); 16/24-bit PCM clips them, float keeps
+  them so the gain can be lowered later. The run says whether any stem actually went over 0 dBFS. `auto` stays as an option.
+- Final file names (`_instrumental`, `_denoised`…) are set before the messages that mention them, and only on the files
+  that run wrote (not older ones in the same folder).
+- Fixed: the "the file ending in _instrumental is the instrumental" line was never printed (wrong indentation since v3).
+
 ## 2026-11-11 — no more fake hi-res
 - **`auto` format keeps the source's type and bit depth but always writes at the model's sample rate (44.1 kHz)**.
   178 of 185 configs say 44100 (6 say nothing → the engine's default 44100; BandIt v2 says 48000), and the engine

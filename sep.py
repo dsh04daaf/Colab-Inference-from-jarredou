@@ -65,6 +65,7 @@ T = {
         'failed': '❌ La separación falló (código {}). Revisa el mensaje de arriba.',
         'no_drums': '❌ No se encontró la pista de batería del paso anterior.',
         'fmt': 'Formato de {}: {} · {} bits · {} Hz',
+        'float_note': 'Formato: WAV · 32 bits decimal (FLOAT) · {} Hz. No es más calidad: deja los picos sobre 0 dBFS sin recortar ({}); baja la ganancia después si hace falta.',
         'clip': '   ⚠️ {} pasa de 0 dBFS (pico +{:.1f} dB) y en {} bits se recorta; para conservarla entera elige el formato "wav FLOAT"',
         'fmt_sr_note': '   el original es de {} Hz, pero el modelo trabaja a {} Hz: el resultado sale a {} Hz porque subirlo solo daría un falso hi-res (arriba de {} Hz no hay nada)',
         'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
@@ -89,6 +90,7 @@ T = {
         'failed': '❌ Separation failed (exit code {}). Check the message above.',
         'no_drums': '❌ The drums stem from the previous step was not found.',
         'fmt': 'Format of {}: {} · {} bit · {} Hz',
+        'float_note': 'Format: WAV · 32-bit floating point (FLOAT) · {} Hz. Not more quality: peaks above 0 dBFS are kept, not clipped ({}); lower the gain later if needed.',
         'clip': '   ⚠️ {} goes over 0 dBFS (peak +{:.1f} dB) and is clipped at {} bit; to keep it whole pick the "wav FLOAT" format',
         'fmt_sr_note': "   the original is {} Hz, but the model works at {} Hz: the result stays at {} Hz because raising it would only be fake hi-res (nothing above {} Hz)",
         'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
@@ -284,7 +286,8 @@ def _match_format(input_files, folder, since, export_format, t, quiet=False):
                 print(t['fmt_sr_note'].format(fmt[2], model_sr, model_sr, model_sr // 2))
 
 
-def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None):
+def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None,
+              renames=()):
     print(t['model'].format(m['name'], m['author']))
     folder = os.path.join(ROOT, 'ckpts', _slug(m['name']))
     paths = {f['role']: _download(f, t, folder) for f in m['files']}
@@ -319,12 +322,41 @@ def _separate(m, input_folder, output_folder, export_format, quality, chunk_size
     if code != 0:
         print(t['failed'].format(code))
         raise SystemExit(1)
+    for old, new in renames:  # final names before any message mentions them; only the files this run wrote
+        for f in glob.glob(os.path.join(output_folder, '*' + old + '*')):
+            if os.path.getmtime(f) >= since:
+                os.replace(f, new.join(f.rsplit(old, 1)))
     if export_format != 'wav FLOAT':
         _match_format(source_files or glob.glob(os.path.join(input_folder, '*')), output_folder, since, export_format, t, quiet=bool(source_files))
+    else:
+        _float_note(output_folder, since, t)
+
+
+def _float_note(folder, since, t):
+    """FLOAT output: say what it is for and whether any stem actually went over 0 dBFS."""
+    import math
+    import numpy as np
+    import soundfile as sf
+    peaks = []
+    for f in sorted(glob.glob(os.path.join(folder, '*.wav'))):
+        if os.path.getmtime(f) >= since:
+            d, sr = sf.read(f, dtype='float32', always_2d=True)
+            peaks.append((float(np.abs(d).max()) if d.size else 0.0, os.path.basename(f), sr))
+    if not peaks:
+        return
+    over = [(p, n) for p, n, _ in peaks if p > 1.0]
+    lang_es = t is T['es']
+    if over:
+        p, n = max(over)
+        what = (f'{len(over)} pista(s) pasan de 0 dBFS; la más alta {n}, +{20 * math.log10(p):.1f} dB' if lang_es
+                else f'{len(over)} stem(s) go over 0 dBFS; the highest {n}, +{20 * math.log10(p):.1f} dB')
+    else:
+        what = 'esta vez ninguna pista pasó de 0 dBFS' if lang_es else 'this time no stem went over 0 dBFS'
+    print(t['float_note'].format(peaks[0][2], what))
 
 
 def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/input',
-        output_folder='/content/drive/MyDrive/output', export_format='auto', quality='max',
+        output_folder='/content/drive/MyDrive/output', export_format='wav FLOAT', quality='max',
         chunk_size='auto', overlap='auto', use_tta=False, extract_instrumental=True, lang='es'):
     t = T[lang]
     cat = catalog()
@@ -364,18 +396,14 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
     else:
         # a vocal model serves the instrumental goal too: the instrumental is what is left after removing the vocals
         extract = goal in ('acapella', 'karaoke', 'dereverb', 'denoise') or (goal == 'instrumental' and m.get('target') != 'other' and bool(m.get('target')))
-    _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t)
-    if goal in ('instrumental', 'acapella'):
-        for old in ('_other.', '_instrument.', '_Instrumental.'):  # each author names the instrumental stem differently
-            for f in glob.glob(os.path.join(output_folder, '*' + old + '*')):
-                os.replace(f, '_instrumental.'.join(f.rsplit(old, 1)))
-        for f in glob.glob(os.path.join(output_folder, '*_Vocals.*')):
-            os.replace(f, '_vocals.'.join(f.rsplit('_Vocals.', 1)))
+    renames = []
+    if goal in ('instrumental', 'acapella'):  # each author names the instrumental stem differently
+        renames = [('_other.', '_instrumental.'), ('_instrument.', '_instrumental.'), ('_Instrumental.', '_instrumental.'),
+                   ('_Vocals.', '_vocals.')]
     if goal == 'denoise' and m['name'].startswith('DENOISE-DEBLEED'):
         # Gabox's denoise/debleed was trained from an instrumental model: "Instrumental" = clean, "Vocals" = the noise removed
-        for old, new in (('_Instrumental.', '_denoised.'), ('_Vocals.', '_noise.')):
-            for f in glob.glob(os.path.join(output_folder, '*' + old + '*')):
-                os.replace(f, new.join(f.rsplit(old, 1)))
-        if goal == 'instrumental':
-            print(t['is_inst'])
+        renames = [('_Instrumental.', '_denoised.'), ('_Vocals.', '_noise.')]
+    _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, renames=renames)
+    if goal == 'instrumental':
+        print(t['is_inst'])
     print(t['done'].format(output_folder))

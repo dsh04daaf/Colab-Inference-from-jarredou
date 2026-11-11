@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-11 — float only when a stem would clip
+- Back to **`auto` by default** (the 32-bit float default of fba1948 was too broad: the user wants no "fake 32-bit").
+  `auto` = the source's type and bit depth at 44.1 kHz; **only when a stem of a song goes over 0 dBFS** are that song's
+  stems saved as 32-bit float WAV, with a message saying which stem and by how much. A fixed PCM format is respected
+  and the run says what it clipped.
+
 ## 2026-11-11 — 32-bit float WAV by default
 - **Default output is now 32-bit float WAV at 44.1 kHz** ("wav FLOAT 32 bits (recomendado: no recorta picos)"). Not more
   quality: separated stems can go over 0 dBFS (resampling to 44.1 kHz turns a master's inter-sample/true peaks into real

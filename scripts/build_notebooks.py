@@ -6,7 +6,7 @@ RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
 cat = json.load(open(f'{HERE}/models.json', encoding='utf-8'))
 names = [m['name'] for m in cat['models']]
 L = {
- 'es': dict(file='Colab_Inference_ES.ipynb', fauto='auto (tipo y bits del original, a 44 100 Hz)', ffloat='wav FLOAT 32 bits (recomendado: no recorta picos)', auto='Recomendado (según lo que elegí arriba)',
+ 'es': dict(file='Colab_Inference_ES.ipynb', fauto='auto (como el original, a 44 100 Hz)', ffloat='wav FLOAT', auto='Recomendado (según lo que elegí arriba)',
   goals=[('acapella', 'Acapella (voz) + instrumental'), ('instrumental', 'Instrumental'),
          ('stems', 'Stems: voz, batería, bajo, guitarra, piano, otros'), ('drum_pieces', 'Batería por piezas: bombo, caja, toms, hi-hat, platos'),
          ('karaoke', 'Karaoke: separar voz principal de coros'), ('dereverb', 'Quitar reverb'), ('denoise', 'Quitar ruido')],
@@ -51,9 +51,10 @@ Dentro de cada categoría (VOCALS, INST, KARAOKE, DE-REVERB…) van **de mejor a
 - **Calidad** — *Máxima* sube el `overlap` a 8, que es el tope útil según jarredou («normalmente no tiene sentido pasar de 8»); tarda más. *Rápida* usa el `overlap` del autor.
 - **chunk_size** — el tamaño de los trozos en que se corta la canción para procesarla. Cada modelo se entrenó con uno; `auto` usa el del autor.
 - **overlap** — cuánto se pisan esos trozos entre sí. Más alto = uniones más limpias y más tiempo.
-- **Formato** — por defecto **WAV FLOAT de 32 bits a 44 100 Hz**. **No es más calidad**: es para que nada se recorte. Al separar pueden salir picos arriba de 0 dBFS (al bajar la canción a 44 100 Hz los picos entre muestras —el *true peak* de un máster— se vuelven muestras reales, y al quitar la voz el instrumental puede quedar más alto que la mezcla). En 16/24 bits esos picos se cortan al guardar; en FLOAT quedan intactos y tú bajas la ganancia después sin perder nada. Si tus archivos ya tienen margen (por ejemplo, exportados a −6 dB), cualquier formato sirve.
-  - `auto` guarda con el mismo tipo (WAV/FLAC) y los mismos bits que el original, avisando si algo se recortó.
-  - La frecuencia es **siempre 44 100 Hz**: casi todos los modelos (178 de 185) trabajan a 44 100 Hz y no ven nada arriba de 22 050 Hz, así que devolver una canción de 96 o 176,4 kHz a su frecuencia original solo daría un falso hi-res (archivo más grande, mismo corte en 22 kHz).
+- **Formato** — `auto` (por defecto) guarda cada resultado con el **mismo tipo (WAV/FLAC) y los mismos bits que su canción original, a 44 100 Hz**.
+  - **Excepción, solo cuando hace falta:** si alguna pista de una canción pasa de 0 dBFS, las pistas de esa canción se guardan en **WAV FLOAT de 32 bits** y se avisa cuánto pasó. No es más calidad: en 16/24 bits esos picos se cortarían al guardar, y en FLOAT quedan intactos para que bajes la ganancia después. Puede pasar con masters muy fuertes: al bajar la canción a 44 100 Hz los picos entre muestras (*true peak*) se vuelven muestras reales, y al quitar la voz el instrumental puede quedar más alto que la mezcla. Archivos con margen (por ejemplo, exportados a −6 dB) no llegan a eso.
+  - **Siempre 44 100 Hz:** casi todos los modelos (178 de 185) trabajan a 44 100 Hz y no ven nada arriba de 22 050 Hz, así que devolver una canción de 96 o 176,4 kHz a su frecuencia original solo daría un falso hi-res (archivo más grande, mismo corte en 22 kHz).
+  - Si eliges un formato fijo (por ejemplo `wav PCM_24`) se respeta, y se avisa si algo se recortó.
 - **TTA** — procesa la canción tres veces (normal, canales invertidos, fase invertida) y promedia. Tarda el triple y la mejora rara vez se oye.
 - **extraer_instrumental** — solo en modo manual: además del stem del modelo, guarda lo que queda al restarlo de la mezcla.
 
@@ -64,7 +65,7 @@ Algunos modelos (SW de 6 stems, DrumSep, SCNet…) no admiten cambiar chunk/over
 - **No aparece mi Drive** — vuelve a ejecutar *1. Preparar*.
 - **Se quedó sin memoria** — usa calidad *Rápida* o un `chunk_size` más pequeño.
 - Al terminar: *Entorno de ejecución → Desconectar y eliminar entorno*, para no gastar tus créditos."""),
- 'en': dict(file='Colab_Inference_EN.ipynb', fauto='auto (source type and bit depth, at 44,100 Hz)', ffloat='wav FLOAT 32-bit (recommended: no clipped peaks)', auto='Recommended (for what I picked above)',
+ 'en': dict(file='Colab_Inference_EN.ipynb', fauto='auto (like the source, at 44,100 Hz)', ffloat='wav FLOAT', auto='Recommended (for what I picked above)',
   goals=[('acapella', 'Acapella (vocals) + instrumental'), ('instrumental', 'Instrumental'),
          ('stems', 'Stems: vocals, drums, bass, guitar, piano, other'), ('drum_pieces', 'Drum pieces: kick, snare, toms, hi-hat, cymbals'),
          ('karaoke', 'Karaoke: split lead vocal from backing'), ('dereverb', 'Remove reverb'), ('denoise', 'Remove noise')],
@@ -109,9 +110,10 @@ Within each category (VOCALS, INST, KARAOKE, DE-REVERB…) models go **from best
 - **Quality** — *Maximum* raises `overlap` to 8, the useful ceiling according to jarredou ("normally there's no point going over 8"); it takes longer. *Fast* uses the author's `overlap`.
 - **chunk_size** — the size of the pieces the song is cut into for processing. Each model was trained with one; `auto` uses the author's.
 - **overlap** — how much those pieces overlap. Higher = cleaner joins and more time.
-- **Format** — by default **32-bit FLOAT WAV at 44,100 Hz**. **It is not more quality**: it is so nothing gets clipped. Separation can produce peaks above 0 dBFS (resampling the song to 44,100 Hz turns inter-sample peaks — a master's *true peak* — into real samples, and removing the vocals can leave the instrumental louder than the mix). At 16/24-bit those peaks are cut when saving; in FLOAT they stay intact and you lower the gain later without losing anything. If your files already have headroom (e.g. exported at −6 dB), any format works.
-  - `auto` saves with the same type (WAV/FLAC) and bit depth as the source, warning if anything was clipped.
-  - The sample rate is **always 44,100 Hz**: almost every model (178 of 185) works at 44,100 Hz and sees nothing above 22,050 Hz, so returning a 96 or 176.4 kHz song at its original rate would only be fake hi-res (bigger file, same 22 kHz cut).
+- **Format** — `auto` (the default) saves each result with the **same type (WAV/FLAC) and bit depth as its source song, at 44,100 Hz**.
+  - **Exception, only when needed:** if any stem of a song goes over 0 dBFS, that song's stems are saved as **32-bit float WAV** and the run says by how much. Not more quality: 16/24-bit would cut those peaks when saving; float keeps them so you can lower the gain later. It can happen with very loud masters: resampling to 44,100 Hz turns inter-sample (*true*) peaks into real samples, and removing the vocals can leave the instrumental louder than the mix. Files with headroom (e.g. exported at −6 dB) do not get there.
+  - **Always 44,100 Hz:** almost every model (178 of 185) works at 44,100 Hz and sees nothing above 22,050 Hz, so returning a 96 or 176.4 kHz song at its original rate would only be fake hi-res (bigger file, same 22 kHz cut).
+  - If you pick a fixed format (e.g. `wav PCM_24`) it is respected, and the run says if anything was clipped.
 - **TTA** — processes the song three times (normal, swapped channels, inverted phase) and averages. Three times slower and the gain is rarely audible.
 - **extract_instrumental** — manual mode only: besides the model's stem, also saves what is left after subtracting it from the mix.
 
@@ -150,7 +152,7 @@ sep.setup('{lang}')
 {t['want']} = {goals[0]!r} #@param {goals!r}
 {t['inp']} = '/content/drive/MyDrive/input' #@param {{type:"string"}}
 {t['out']} = '/content/drive/MyDrive/output' #@param {{type:"string"}}
-{t['fmt']} = {t['ffloat']!r} #@param {[t['ffloat'], t['fauto'], 'wav PCM_16', 'wav PCM_24', 'flac PCM_16', 'flac PCM_24']!r}
+{t['fmt']} = {t['fauto']!r} #@param {[t['fauto'], 'wav PCM_16', 'wav PCM_24', 'wav FLOAT', 'flac PCM_16', 'flac PCM_24']!r}
 #@markdown ---
 #@markdown {t['adv']}
 {t['model']} = {t['auto']!r} #@param {[t['auto']] + names!r}
@@ -164,7 +166,7 @@ sys.path.insert(0, '/content/sepcolab')
 import sep
 sep.run(goal={dict((g[1], g[0]) for g in t['goals'])!r}[{t['want']}],
         model='auto' if {t['model']} == {t['auto']!r} else {t['model']},
-        input_folder={t['inp']}, output_folder={t['out']}, export_format={{{t['fauto']!r}: 'auto', {t['ffloat']!r}: 'wav FLOAT'}}.get({t['fmt']}, {t['fmt']}),
+        input_folder={t['inp']}, output_folder={t['out']}, export_format='auto' if {t['fmt']} == {t['fauto']!r} else {t['fmt']},
         quality={dict((q[1], q[0]) for q in t['quality'])!r}[{t['qual']}],
         chunk_size={t['chunk']}, overlap={t['ov']}, use_tta={t['tta']}, extract_instrumental={t['ext']}, lang='{lang}')
 """

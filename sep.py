@@ -66,7 +66,8 @@ T = {
         'no_drums': '❌ No se encontró la pista de batería del paso anterior.',
         'fmt': 'Formato de {}: {} · {} bits · {} Hz',
         'float_note': 'Formato: WAV · 32 bits decimal (FLOAT) · {} Hz. No es más calidad: deja los picos sobre 0 dBFS sin recortar ({}); baja la ganancia después si hace falta.',
-        'clip': '   ⚠️ {} pasa de 0 dBFS (pico +{:.1f} dB) y en {} bits se recorta; para conservarla entera elige el formato "wav FLOAT"',
+        'clip': '   ⚠️ {} pista(s) de {} pasan de 0 dBFS (la más alta {}, +{:.1f} dB) y en {} bits se recortan; para conservarlas elige "auto" o "wav FLOAT"',
+        'to_float': '   ⚠️ {} pista(s) de {} pasan de 0 dBFS (la más alta {}, +{:.1f} dB): en {} bits se recortarían, así que las pistas de esta canción se guardan en WAV FLOAT 32 bits. No es más calidad: solo conserva esos picos para que bajes la ganancia después.',
         'fmt_sr_note': '   el original es de {} Hz, pero el modelo trabaja a {} Hz: el resultado sale a {} Hz porque subirlo solo daría un falso hi-res (arriba de {} Hz no hay nada)',
         'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
         'oom': '⚠️ La GPU se quedó sin memoria con los ajustes del autor. Reintentando con chunk_size={} y overlap menor…',
@@ -91,7 +92,8 @@ T = {
         'no_drums': '❌ The drums stem from the previous step was not found.',
         'fmt': 'Format of {}: {} · {} bit · {} Hz',
         'float_note': 'Format: WAV · 32-bit floating point (FLOAT) · {} Hz. Not more quality: peaks above 0 dBFS are kept, not clipped ({}); lower the gain later if needed.',
-        'clip': '   ⚠️ {} goes over 0 dBFS (peak +{:.1f} dB) and is clipped at {} bit; to keep it whole pick the "wav FLOAT" format',
+        'clip': '   ⚠️ {} stem(s) of {} go over 0 dBFS (the highest {}, +{:.1f} dB) and are clipped at {} bit; to keep them pick "auto" or "wav FLOAT"',
+        'to_float': '   ⚠️ {} stem(s) of {} go over 0 dBFS (the highest {}, +{:.1f} dB): {}-bit would clip them, so this song\'s stems are saved as 32-bit float WAV. Not more quality: it only keeps those peaks so you can lower the gain later.',
         'fmt_sr_note': "   the original is {} Hz, but the model works at {} Hz: the result stays at {} Hz because raising it would only be fake hi-res (nothing above {} Hz)",
         'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
         'oom': "⚠️ The GPU ran out of memory with the author's settings. Retrying with chunk_size={} and a lower overlap…",
@@ -252,36 +254,50 @@ def _convert(path, container, subtype, samplerate):
         data, sr = soxr.resample(data, sr, samplerate, quality='VHQ'), samplerate
     dest = os.path.splitext(path)[0] + '.' + container
     tmp = dest + '.tmp.' + container
-    import numpy as np
-    peak = float(np.abs(data).max()) if data.size else 0.0  # PCM clips anything above 1.0 (soundfile clips, no wrap-around)
-    sf.write(tmp, data, sr, subtype=subtype)
+    sf.write(tmp, data, sr, subtype=subtype)  # PCM clips anything above 1.0 (soundfile clips, no wrap-around)
     if dest != path:
         os.remove(path)
     os.replace(tmp, dest)
-    return dest, peak
+    return dest
 
 
 def _match_format(input_files, folder, since, export_format, t, quiet=False):
-    """Convert every file the engine just wrote in `folder` (auto = same format as its source song)."""
+    """Convert every file the engine just wrote in `folder`.
+
+    auto = the source's type and bit depth, at the model's sample rate. If any stem of a song goes over 0 dBFS (PCM would
+    clip it), that song's stems are saved as 32-bit float WAV instead, and the run says so: only when it is needed."""
+    import math
+    import numpy as np
+    import soundfile as sf
     fixed = None if export_format == 'auto' else (export_format.split(' ')[0], export_format.split(' ')[1], None)
     stems = sorted(((os.path.splitext(os.path.basename(f))[0], f) for f in input_files), key=lambda x: -len(x[0]))
-    shown = set()
+    groups = {}
     for out in sorted(glob.glob(os.path.join(folder, '*.wav'))):
         if os.path.getmtime(out) < since:
             continue
         src = next((f for s, f in stems if os.path.basename(out).startswith(s + '_')), None)
-        if not src:
-            continue
+        if src:
+            groups.setdefault(src, []).append(out)
+    for src, outs in groups.items():
         fmt = fixed or _source_format(src)
-        import soundfile as sf
-        model_sr = sf.info(out).samplerate  # what the engine actually worked at (44100 for almost every model)
-        dest, peak = _convert(out, fmt[0], fmt[1], None)
-        if peak > 1.0 and fmt[1] != 'FLOAT':
-            import math
-            print(t['clip'].format(os.path.basename(dest), 20 * math.log10(peak), fmt[1].replace('PCM_', '')))
-        if src not in shown and not quiet:
-            shown.add(src)
-            print(t['fmt'].format(os.path.basename(src), fmt[0].upper(), fmt[1].replace('PCM_', '').replace('FLOAT', '32 float'), model_sr))
+        model_sr = sf.info(outs[0]).samplerate  # what the engine actually worked at (44100 for almost every model)
+        peaks = []
+        for o in outs:
+            d, _ = sf.read(o, dtype='float32', always_2d=True)
+            peaks.append((float(np.abs(d).max()) if d.size else 0.0, o))
+        over = [(p, o) for p, o in peaks if p > 1.0]
+        bits = fmt[1].replace('PCM_', '')
+        if over and fmt[1] != 'FLOAT':
+            p, o = max(over)
+            if fixed:  # the user picked this format: keep it, but say what it cut
+                print(t['clip'].format(len(over), os.path.basename(src), os.path.basename(o), 20 * math.log10(p), bits))
+            else:
+                print(t['to_float'].format(len(over), os.path.basename(src), os.path.basename(o), 20 * math.log10(p), bits))
+                fmt = ('wav', 'FLOAT', fmt[2])
+        for o in outs:
+            _convert(o, fmt[0], fmt[1], None)
+        if not quiet:
+            print(t['fmt'].format(os.path.basename(src), fmt[0].upper(), fmt[1].replace('PCM_', '').replace('FLOAT', '32 (FLOAT)'), model_sr))
             if fmt[2] and fmt[2] > model_sr:
                 print(t['fmt_sr_note'].format(fmt[2], model_sr, model_sr, model_sr // 2))
 
@@ -356,7 +372,7 @@ def _float_note(folder, since, t):
 
 
 def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/input',
-        output_folder='/content/drive/MyDrive/output', export_format='wav FLOAT', quality='max',
+        output_folder='/content/drive/MyDrive/output', export_format='auto', quality='max',
         chunk_size='auto', overlap='auto', use_tta=False, extract_instrumental=True, lang='es'):
     t = T[lang]
     cat = catalog()

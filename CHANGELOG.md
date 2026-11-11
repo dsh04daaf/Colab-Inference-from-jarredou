@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-11 — a real progress panel
+- **One progress panel that updates in place** (an HTML progress bar through IPython's display handle; a single text line
+  outside a notebook) instead of relaying the engine's tqdm output. Before, two tqdm bars shared one line, the chunk bar
+  counted audio samples, it restarted on every TTA pass, nothing showed while the model loaded, and the "\r" redraws were
+  unreliable through the relay — it looked stuck or garbled.
+- The panel shows: song n of N, overall %, TTA pass, time left and time elapsed; a moving bar while the model loads;
+  "saving the stems…" at the end; "Separation finished" at 100 %. Model downloads show % and MB; the setup's pip install
+  shows elapsed time and the package it is on. tqdm's cursor escape codes ("[A") no longer leak into the output.
+
 ## 2026-11-11 — float only when a stem would clip
 - Back to **`auto` by default** (the 32-bit float default of fba1948 was too broad: the user wants no "fake 32-bit").
   `auto` = the source's type and bit depth at 44.1 kHz; **only when a stem of a song goes over 0 dBFS** are that song's

@@ -69,7 +69,11 @@ T = {
         'clip': '   ⚠️ {} pista(s) de {} pasan de 0 dBFS (la más alta {}, +{:.1f} dB) y en {} bits se recortan; para conservarlas elige "auto" o "wav FLOAT"',
         'to_float': '   ⚠️ {} pista(s) de {} pasan de 0 dBFS (la más alta {}, +{:.1f} dB): en {} bits se recortarían, así que las pistas de esta canción se guardan en WAV FLOAT 32 bits. No es más calidad: solo conserva esos picos para que bajes la ganancia después.',
         'fmt_sr_note': '   el original es de {} Hz, pero el modelo trabaja a {} Hz: el resultado sale a {} Hz porque subirlo solo daría un falso hi-res (arriba de {} Hz no hay nada)',
-        'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
+        'working': 'Separando… (el panel de abajo muestra el avance; con calidad máxima o TTA tarda varios minutos por canción)',
+        'p_install': 'Instalando dependencias', 'p_dl': 'Descargando {}', 'p_dl_detail': '{:.0f} de {:.0f} MB',
+        'p_load': 'Cargando el modelo en la GPU…', 'p_sep': 'Separando {} (canción {} de {})', 'p_pass': 'pasada {} de {} (TTA)',
+        'p_left': 'quedan ~{}', 'p_save': 'guardando las pistas…', 'p_done': 'Separación terminada', 'p_elapsed': '{} transcurridos',
+        'p_last': 'último paso: {}',
         'oom': '⚠️ La GPU se quedó sin memoria con los ajustes del autor. Reintentando con chunk_size={} y overlap menor…',
         'is_inst': 'El archivo terminado en "_instrumental" es el instrumental.',
     },
@@ -95,7 +99,11 @@ T = {
         'clip': '   ⚠️ {} stem(s) of {} go over 0 dBFS (the highest {}, +{:.1f} dB) and are clipped at {} bit; to keep them pick "auto" or "wav FLOAT"',
         'to_float': '   ⚠️ {} stem(s) of {} go over 0 dBFS (the highest {}, +{:.1f} dB): {}-bit would clip them, so this song\'s stems are saved as 32-bit float WAV. Not more quality: it only keeps those peaks so you can lower the gain later.',
         'fmt_sr_note': "   the original is {} Hz, but the model works at {} Hz: the result stays at {} Hz because raising it would only be fake hi-res (nothing above {} Hz)",
-        'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
+        'working': 'Separating… (the panel below shows the progress; maximum quality or TTA takes several minutes per song)',
+        'p_install': 'Installing dependencies', 'p_dl': 'Downloading {}', 'p_dl_detail': '{:.0f} of {:.0f} MB',
+        'p_load': 'Loading the model on the GPU…', 'p_sep': 'Separating {} (song {} of {})', 'p_pass': 'pass {} of {} (TTA)',
+        'p_left': '~{} left', 'p_save': 'saving the stems…', 'p_done': 'Separation finished', 'p_elapsed': '{} elapsed',
+        'p_last': 'last step: {}',
         'oom': "⚠️ The GPU ran out of memory with the author's settings. Retrying with chunk_size={} and a lower overlap…",
         'is_inst': 'The file ending in "_instrumental" is the instrumental.',
     },
@@ -119,16 +127,72 @@ def setup(lang='es'):
     with open(req, 'w') as f:
         f.write(REQUIREMENTS)
     print(t['installing'], flush=True)
-    r = subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', req], capture_output=True, text=True)
-    if r.returncode != 0:
+    import time
+    panel, t0 = _Panel(), time.time()
+
+    def on_line(line, is_cr):  # pip has no total: a moving bar, the time and the package it is on
+        line = line.strip()
+        if line.startswith(('Collecting', 'Downloading', 'Installing', 'Building', 'Using cached', 'Requirement already')):
+            panel.update(None, t['p_install'], t['p_elapsed'].format(_clock(time.time() - t0)) + ' · ' + t['p_last'].format(line[:90]))
+        return True
+    code = _stream([sys.executable, '-m', 'pip', 'install', '-r', req], on_line=on_line)
+    if code != 0:
         print(t['install_fail'])
-        print('\n'.join((r.stdout + r.stderr).splitlines()[-40:]))
+        print('\n'.join(_stream.tail.splitlines()[-40:]))
         raise SystemExit(1)
+    panel.update(1.0, t['p_install'], t['p_elapsed'].format(_clock(time.time() - t0)), force=True)
     print(t['install_ok'])
 
 
-def _stream(cmd, cwd=None):
-    """Run a command showing its output live (Colab does not display a child process's output by itself)."""
+class _Panel:
+    """One progress panel that updates in place in Colab (an HTML <progress> bar through IPython's display handle);
+    outside a notebook it falls back to a single text line. The engine's own tqdm bars are not shown: two of them share
+    one line, count audio samples and restart on every TTA pass, so they looked stuck or garbled."""
+
+    def __init__(self):
+        self.handle, self.last = None, 0.0
+        try:
+            from IPython import get_ipython
+            if get_ipython() is not None:
+                from IPython.display import display, HTML
+                self.HTML = HTML
+                self.handle = display(HTML(''), display_id=True)
+        except Exception:
+            self.handle = None
+
+    def update(self, frac, title, detail='', force=False):
+        import html
+        import time
+        now = time.time()
+        if not force and now - self.last < 0.5:
+            return
+        self.last = now
+        pct = None if frac is None else max(0.0, min(1.0, frac))
+        if self.handle is not None:
+            bar = (f'<progress value="{pct * 100:.1f}" max="100" style="width:100%;height:14px"></progress>' if pct is not None
+                   else '<progress style="width:100%;height:14px"></progress>')  # no value = moving bar (unknown length)
+            right = f'{pct * 100:.0f} %' if pct is not None else ''
+            self.handle.update(self.HTML(
+                '<div style="font-family:system-ui,sans-serif;font-size:13px;max-width:680px;margin:6px 0">'
+                f'<div style="display:flex;justify-content:space-between;gap:12px"><b>{html.escape(title)}</b><span>{right}</span></div>'
+                f'{bar}<div style="opacity:.75;min-height:1.2em">{html.escape(detail)}</div></div>'))
+        else:
+            line = f'{title} {"" if pct is None else f"{pct * 100:5.1f}%"} {detail}'
+            print(line[:150].ljust(150), end='\n' if force else '\r')
+
+
+import re as _re
+_ANSI = _re.compile(r'\x1b\[[0-9;?]*[A-Za-z]')
+
+
+def _clock(sec):
+    sec = int(max(0, sec))
+    return f'{sec // 3600}:{sec % 3600 // 60:02d}:{sec % 60:02d}' if sec >= 3600 else f'{sec // 60}:{sec % 60:02d}'
+
+
+def _stream(cmd, cwd=None, on_line=None):
+    """Run a command showing its output live (Colab does not display a child process's output by itself).
+    on_line(text, is_cr) may take a line (return True) so it is not printed; is_cr = it ended in \\r (a bar redraw)."""
     import time
     p = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=0,
                          env={**os.environ, 'PYTHONUNBUFFERED': '1'})
@@ -144,6 +208,9 @@ def _stream(cmd, cwd=None):
             if i < 0:
                 break
             line, sep_, buf = buf[:i].decode('utf-8', 'replace'), buf[i:i + 1], buf[i + 1:]
+            line = _ANSI.sub('', line)  # tqdm moves the cursor with escape codes (shown as "[A" in Colab)
+            if on_line and on_line(line, sep_ == b'\r'):
+                continue
             if sep_ == b'\n':
                 if line.strip() or pending:
                     print((line if line.strip() else pending or '').ljust(100))
@@ -156,12 +223,30 @@ def _stream(cmd, cwd=None):
     if pending:
         print(pending.ljust(100))
     _stream.oom = b'out of memory' in tail.lower()
+    _stream.tail = tail.decode('utf-8', 'replace')
     return p.wait()
 
 
-def _fetch(url, dest):
-    code = _stream(['curl', '-L', '--fail', '--retry', '3', '--progress-bar', '-o', dest + '.part', url])
-    return code == 0 and os.path.exists(dest + '.part')
+def _fetch(url, dest, t=None, label='', total=0):
+    import re
+    panel = _Panel()
+    pct_re = re.compile(r'(\d+(?:[.,]\d+)?)\s*%')
+
+    def on_line(line, is_cr):
+        m = pct_re.search(line)
+        if m and set(line.strip()) - set('#=-O% 0123456789.,'):  # not a curl bar: let it print
+            return False
+        if m:
+            f = float(m.group(1).replace(',', '.')) / 100
+            if t:
+                panel.update(f, t['p_dl'].format(label), t['p_dl_detail'].format(f * total / 1e6, total / 1e6) if total else '')
+            return True
+        return not line.strip()
+    code = _stream(['curl', '-L', '--fail', '--retry', '3', '--progress-bar', '-o', dest + '.part', url], on_line=on_line)
+    ok = code == 0 and os.path.exists(dest + '.part')
+    if t and ok:
+        panel.update(1.0, t['p_dl'].format(label), t['p_dl_detail'].format(total / 1e6, total / 1e6) if total else '', force=True)
+    return ok
 
 
 def _slug(name):
@@ -182,7 +267,7 @@ def _download(f, t, folder):
     for i, url in enumerate(sources):
         if i:
             print(t['dl_backup'], flush=True)
-        if _fetch(url, dest) and (not want or os.path.getsize(dest + '.part') == want):
+        if _fetch(url, dest, t, f['name'], want or 0) and (not want or os.path.getsize(dest + '.part') == want):
             os.replace(dest + '.part', dest)
             return dest
         if os.path.exists(dest + '.part'):
@@ -302,6 +387,69 @@ def _match_format(input_files, folder, since, export_format, t, quiet=False):
                 print(t['fmt_sr_note'].format(fmt[2], model_sr, model_sr, model_sr // 2))
 
 
+class _SepProgress:
+    """Turns the engine's output into one panel: song n of N, overall %, TTA pass, time left. The engine prints
+    "Total files found: N", "Starting processing track: <path>" and a tqdm bar "Processing audio chunks: NN%" per pass."""
+
+    def __init__(self, t, passes):
+        import re
+        import time
+        self.t, self.passes, self.panel = t, passes, _Panel()
+        self.n, self.i, self.name, self.pass_i, self.last, self.t0 = 1, 0, '', 0, 0, None
+        self.re_total = re.compile(r'Total files found:\s*(\d+)')
+        self.re_start = re.compile(r'Starting processing track:\s*(.+)$')
+        self.re_chunk = re.compile(r'Processing audio chunks:\s*(\d+)%')
+        self.panel.update(None, t['p_load'], force=True)
+        self.started = time.time()
+
+    def __call__(self, line, is_cr):
+        import time
+        t = self.t
+        m = self.re_total.search(line)
+        if m:
+            self.n = max(1, int(m.group(1)))
+            return True
+        m = self.re_start.search(line)
+        if m:
+            self.i += 1
+            self.name, self.pass_i, self.last = os.path.basename(m.group(1).strip()), 0, 0
+            self._draw(0, force=True)
+            return True
+        m = self.re_chunk.search(line)
+        if m:
+            p = int(m.group(1))
+            if p + 20 < self.last and self.pass_i + 1 < self.passes:  # the bar started over: next TTA pass
+                self.pass_i += 1
+            self.last = p
+            if self.t0 is None:
+                self.t0 = time.time()
+            self._draw(p / 100, force=False)
+            return True
+        if 'Total progress' in line or (is_cr and '%|' in line):
+            return True  # the engine's own bars: replaced by the panel
+        return not line.strip()
+
+    def _draw(self, p, force):
+        import time
+        t = self.t
+        song = (self.pass_i + p) / self.passes
+        done = ((self.i - 1) + song) / self.n
+        bits = []
+        if self.passes > 1:
+            bits.append(t['p_pass'].format(self.pass_i + 1, self.passes))
+        if p >= 1 and self.pass_i + 1 >= self.passes:
+            bits.append(t['p_save'])
+        elif self.t0 and done > 0.02:
+            el = time.time() - self.t0
+            bits.append(t['p_left'].format(_clock(el / done * (1 - done))))
+        bits.append(t['p_elapsed'].format(_clock(time.time() - self.started)))
+        self.panel.update(done, t['p_sep'].format(self.name, self.i, self.n), ' · '.join(bits), force=force)
+
+    def finish(self):
+        import time
+        self.panel.update(1.0, self.t['p_done'], self.t['p_elapsed'].format(_clock(time.time() - self.started)), force=True)
+
+
 def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None,
               renames=()):
     print(t['model'].format(m['name'], m['author']))
@@ -330,14 +478,17 @@ def _separate(m, input_folder, output_folder, export_format, quality, chunk_size
         cmd.append('--extract_instrumental')
     if use_tta:
         cmd.append('--use_tta')
-    code = _stream(cmd, cwd=ROOT)
+    prog = _SepProgress(t, 3 if use_tta else 1)
+    code = _stream(cmd, cwd=ROOT, on_line=prog)
     if code != 0 and _stream.oom and st and st[0] > SAFE_CHUNK:
         print(t['oom'].format(SAFE_CHUNK))
         _conf_edit(paths['config'], SAFE_CHUNK, min(st[1], 4))
-        code = _stream(cmd, cwd=ROOT)
+        prog = _SepProgress(t, 3 if use_tta else 1)
+        code = _stream(cmd, cwd=ROOT, on_line=prog)
     if code != 0:
         print(t['failed'].format(code))
         raise SystemExit(1)
+    prog.finish()
     for old, new in renames:  # final names before any message mentions them; only the files this run wrote
         for f in glob.glob(os.path.join(output_folder, '*' + old + '*')):
             if os.path.getmtime(f) >= since:

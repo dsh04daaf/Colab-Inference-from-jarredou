@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 scripts/check_sources.py
+        timeout-minutes: 20
       - name: Open an issue when something changed
         env:
           GH_TOKEN: ${{ github.token }}
@@ -19,7 +20,8 @@ jobs:
           if [ -s report.md ]; then
             gh issue create --title "Source monitor: $(date -u +%F)" --body-file report.md
           fi
-      - name: Save the snapshot of tracked accounts
+      - name: Save the snapshot of tracked accounts and the guide
+        if: always()  # even when the issue step fails, or the same report repeats every week
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

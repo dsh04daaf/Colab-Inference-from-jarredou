@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-11 — source monitor fixed + guide watch
+- **The weekly monitor had failed every Monday since 2026-10-19**: mirror accounts (Eddycrack864 & co., which re-upload
+  other people's models by the hundred) pushed the report past GitHub's 65,536-character issue limit; the failed step also
+  skipped saving the snapshot, so the same report came back every week. Mirrors are no longer tracked as authors, the
+  report is grouped per account and capped, and the snapshot is saved even when the issue step fails.
+- **deton24's guide is now watched too**: when its edition changes, the issue lists the new "Last updates and news"
+  items and the model entries with new metrics, next to the edition the notebook's defaults follow (`guide_edition`).
+
 ## 2026-11-11 — catalog v3: guide defaults + 42 models
 - **Defaults are now the best public model of each kind in deton24's guide (edition 2026-11-10)**: acapella = Leap Xe (unwa),
   instrumental = deux (becruily), karaoke = BS-Roformer (becruily & frazer), remove noise = denoise/debleed (Gabox);

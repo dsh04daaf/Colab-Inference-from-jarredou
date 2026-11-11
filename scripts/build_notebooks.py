@@ -14,7 +14,7 @@ L = {
   intro=f"""# Separación de música — Colab Inference
 Saca **acapellas, instrumentales y stems** con los modelos de la comunidad, sobre el código de [ZFTurbo](https://github.com/ZFTurbo/Music-Source-Separation-Training).
 
-Basado en el notebook original de **jarredou** & deton. Este repo lo conserva, lo mantiene funcionando y respalda los modelos que ya no tienen cuenta de origen. Créditos de cada modelo en el [README](https://github.com/{REPO}#créditos).
+Basado en el notebook original de **jarredou** & deton (y en la versión que mantienen deton24 y makidanye). Este repo lo conserva, lo mantiene funcionando y respalda los modelos que ya no tienen cuenta de origen. Créditos de cada modelo en el [README](https://github.com/{REPO}#créditos).
 
 **Cómo se usa**
 1. En tu Google Drive crea las carpetas `input` y `output`, y sube tus canciones a `input`.
@@ -27,13 +27,23 @@ Basado en el notebook original de **jarredou** & deton. Este repo lo conserva, l
   t2='# 2. Separar', want='que_quiero', inp='carpeta_entrada', out='carpeta_salida', fmt='formato',
   adv='### Avanzado (opcional — cada modelo ya trae sus propios ajustes, no hace falta cambiarlos)',
   model='modelo', qual='calidad', chunk='chunk_size', ov='overlap', tta='usar_tta', ext='extraer_instrumental',
-  notes="""## ¿Qué modelo se usa para acapellas e instrumentales?
-Por defecto, el **MelBand Roformer de KimberleyJSN**. Es una elección de uso, no de métricas: quien mantiene este Colab lo usa para acapellas y se queda con su resultado.
+  notes="""## ¿Qué modelo usa cada opción?
+Los recomendados son **los mejores modelos públicos de cada tipo según la [guía de deton24](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c)** (edición del 10-11-2026), que se basa en métricas y en lo que dicen sus autores y la comunidad:
 
-Según las métricas de la [guía de deton24](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), puntúan más alto **Leap Xe de unwa** (voces) y **deux de becruily** (instrumental). Puedes elegirlos en *Avanzado → modelo* para comparar. No hay un mejor modelo para todo: depende de la canción.
+| Opción | Modelo | Por qué |
+|---|---|---|
+| Acapella | **Leap Xe** (unwa) | las mejores métricas de voces entre los modelos públicos |
+| Instrumental | **deux** (becruily) | el mejor equilibrio entre cuerpo y limpieza; no necesita phase fix |
+| Stems | **BS-Roformer SW** (6 stems) | el mejor SDR de un solo modelo para batería, bajo, guitarra y piano |
+| Batería por piezas | SW → **DrumSep 5 stems** (jarredou) | el DrumSep público más nuevo y mejor |
+| Karaoke | **BS-Roformer** (becruily & frazer) | el que mejor separa voz principal de coros |
+| Quitar reverb | **BS-Roformer dereverb** (anvuew) | «probablemente el mejor por ahora» |
+| Quitar ruido | **denoise/debleed** (Gabox) | el primero de los de uso general; salen `_denoised` y `_noise` |
+
+No hay un mejor modelo para todo: depende de la canción. Si uno no te convence, prueba otro en *Avanzado → modelo*. Por ejemplo, para instrumentales con más cuerpo, **HyperACE v2** (unwa); para voces, **big_beta7** o **HyperACE v2**.
 
 ## ¿En qué orden está la lista de modelos?
-Dentro de cada categoría (VOCALS, INST, KARAOKE, DE-REVERB…) van **de mejor a peor en teoría**, siguiendo el orden en que los presenta la guía de deton24, que se basa en métricas y en lo que dicen sus autores y la comunidad. Los que la guía no ordena van después, del más nuevo al más viejo. Es un orden teórico: «peor» aquí solo quiere decir que suele puntuar menos, y en una canción concreta puede sonar mejor uno de más abajo (es justo lo que pasa con el de KimberleyJSN).
+Dentro de cada categoría (VOCALS, INST, KARAOKE, DE-REVERB…) van **de mejor a peor en teoría**, en el orden en que los presenta la guía de deton24. Los que la guía no ordena van después, del más nuevo al más viejo. «Peor» solo quiere decir que suele puntuar menos: en una canción concreta puede sonar mejor uno de más abajo.
 
 ## ¿Qué significan los ajustes?
 **Cada modelo tiene su propia configuración** (la que publicó su autor) y se carga sola al elegirlo. En `auto` no hay nada que tocar; al terminar se imprime qué valores se usaron.
@@ -60,7 +70,7 @@ Algunos modelos (SW de 6 stems, DrumSep, SCNet…) no admiten cambiar chunk/over
   intro=f"""# Music source separation — Colab Inference
 Get **acapellas, instrumentals and stems** with the community's models, on top of [ZFTurbo](https://github.com/ZFTurbo/Music-Source-Separation-Training)'s code.
 
-Based on the original notebook by **jarredou** & deton. This repo preserves it, keeps it working and backs up the models whose source account is gone. Credits for every model are in the [README](https://github.com/{REPO}#credits).
+Based on the original notebook by **jarredou** & deton (and on the version deton24 and makidanye maintain). This repo preserves it, keeps it working and backs up the models whose source account is gone. Credits for every model are in the [README](https://github.com/{REPO}#credits).
 
 **How to use**
 1. In your Google Drive create the folders `input` and `output`, and upload your songs to `input`.
@@ -73,13 +83,23 @@ Based on the original notebook by **jarredou** & deton. This repo preserves it, 
   t2='# 2. Separate', want='i_want', inp='input_folder', out='output_folder', fmt='export_format',
   adv='### Advanced (optional — every model already ships its own settings, no need to change them)',
   model='model', qual='quality', chunk='chunk_size', ov='overlap', tta='use_tta', ext='extract_instrumental',
-  notes="""## Which model is used for acapellas and instrumentals?
-By default, **KimberleyJSN's MelBand Roformer**. It is a choice from use, not from metrics: the maintainer of this Colab uses it for acapellas and prefers its result.
+  notes="""## Which model does each option use?
+The recommended models are **the best public model of each kind according to [deton24's guide](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c)** (edition of 2026-11-10), which is based on metrics and on what their authors and the community say:
 
-By the metrics in [deton24's guide](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c), **unwa's Leap Xe** (vocals) and **becruily's deux** (instrumental) score higher. You can pick them under *Advanced → model* to compare. There is no single best model: it depends on the song.
+| Option | Model | Why |
+|---|---|---|
+| Acapella | **Leap Xe** (unwa) | the best vocal metrics among public models |
+| Instrumental | **deux** (becruily) | the best fullness/bleedless balance; needs no phase fix |
+| Stems | **BS-Roformer SW** (6 stems) | the best single-model SDR for drums, bass, guitar and piano |
+| Drum pieces | SW → **DrumSep 5 stems** (jarredou) | the newest and best public DrumSep |
+| Karaoke | **BS-Roformer** (becruily & frazer) | the best at telling lead from backing vocals |
+| Remove reverb | **BS-Roformer dereverb** (anvuew) | "probably the best for now" |
+| Remove noise | **denoise/debleed** (Gabox) | the first of the general-purpose ones; outputs `_denoised` and `_noise` |
+
+There is no single best model: it depends on the song. If one does not convince you, try another under *Advanced → model*. For example, for fuller instrumentals, **HyperACE v2** (unwa); for vocals, **big_beta7** or **HyperACE v2**.
 
 ## In what order is the model list?
-Within each category (VOCALS, INST, KARAOKE, DE-REVERB…) models go **from best to worst in theory**, following the order in which deton24's guide presents them, which is based on metrics and on what their authors and the community say. Models the guide does not rank come after, newest first. It is a theoretical order: "worse" here only means it usually scores lower, and on a given song one further down can sound better (that is exactly the case with KimberleyJSN's).
+Within each category (VOCALS, INST, KARAOKE, DE-REVERB…) models go **from best to worst in theory**, in the order deton24's guide presents them. Models the guide does not rank come after, newest first. "Worse" only means it usually scores lower: on a given song one further down can sound better.
 
 ## What do the settings mean?
 **Every model has its own configuration** (the one its author published) and it loads by itself when you pick the model. On `auto` there is nothing to touch; the values used are printed when it finishes.

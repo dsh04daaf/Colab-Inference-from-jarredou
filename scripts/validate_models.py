@@ -3,7 +3,7 @@ device (no memory) and compare parameter names and shapes with the checkpoint's,
 requests (a torch .ckpt is a zip). This is exactly what load_state_dict requires.
 
 Run inside an environment with the notebook's requirements, with the code repo mounted at /q:
-    python validate_models.py todo.json results.json   # todo = {name: [model_type, config_url, checkpoint_url]}
+    python validate_models.py todo.json results.json   # todo = {name: [model_type, config_url, checkpoint_url, code_url?]}
 """
 import sys, io, json, zipfile, pickle, collections, re, traceback, os
 import requests, yaml, torch
@@ -72,7 +72,16 @@ def ckpt_shapes(url):
     return {k: v[1] for k, v in d.items() if isinstance(v, tuple) and v and v[0] == 'T'}, wrap, f.size
 
 
-def check(mt, cfg_url, ck_url):
+def use_code(code_url):
+    """Models with their own bs_roformer.py: put it where the runner puts it and drop any cached import."""
+    if not code_url: return
+    r = S.get(code_url, timeout=60); r.raise_for_status()
+    open('/q/models/bs_roformer_custom/bs_roformer.py', 'wb').write(r.content)
+    for k in [k for k in sys.modules if k.startswith('models.bs_roformer_custom')]: del sys.modules[k]
+
+
+def check(mt, cfg_url, ck_url, code_url=None):
+    use_code(code_url)
     r = S.get(quote(cfg_url, safe=':/%'), timeout=60); r.raise_for_status()
     open('/tmp/c.yaml', 'wb').write(r.content)
     try:
@@ -81,7 +90,7 @@ def check(mt, cfg_url, ck_url):
     except Exception as e:
         if 'meta tensor' in repr(e): return {'ok': None, 'why': 'no verificable sin memoria (arquitectura no admite meta)'}
         return {'ok': False, 'why': 'config/arquitectura: ' + (repr(e)[:260])}
-    want = {k: tuple(v.shape) for k, v in model.state_dict().items()}
+    want = {k: tuple(v.shape) for k, v in model.state_dict().items() if hasattr(v, 'shape')}  # neuralop keeps metadata dicts in it
     try:
         have, wrap, size = ckpt_shapes(ck_url)
     except Exception as e:
@@ -100,12 +109,12 @@ def check(mt, cfg_url, ck_url):
 
 if __name__ == '__main__':
     todo = json.load(open(sys.argv[1])); out = json.load(open(sys.argv[2])) if os.path.exists(sys.argv[2]) else {}
-    for name, (mt, cfg, ck) in todo.items():
+    for name, (mt, cfg, ck, *code) in todo.items():
         if name in out: continue
-        if mt in ('bandit', 'bandit_v2', 'segm_models', 'swin_upernet', 'apollo', 'demucs'):
+        if mt in ('bandit', 'bandit_v2', 'segm_models', 'swin_upernet', 'demucs'):
             out[name] = {'ok': None, 'why': 'arquitectura fuera del comprobador'}; continue
         out[name] = {'ok': None, 'why': 'el comprobador murió en este modelo'}; json.dump(out, open(sys.argv[2], 'w'), indent=1)
-        try: out[name] = check(mt, cfg, ck)
+        try: out[name] = check(mt, cfg, ck, code[0] if code else None)
         except Exception as e: out[name] = {'ok': None, 'why': 'error: ' + repr(e)[:240]}
         print(('OK ' if out[name]['ok'] else 'NO ' if out[name]['ok'] is False else '?? '), name[:70], '|', out[name].get('why', ''), flush=True)
         json.dump(out, open(sys.argv[2], 'w'), indent=1)

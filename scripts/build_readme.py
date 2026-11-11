@@ -40,11 +40,13 @@ This is a continuation of the **Music-Source-Separation-Training-Colab-Inference
 jarredou's GitHub and Hugging Face accounts no longer exist, which broke the notebook and the models hosted there. This repo:
 
 - keeps the notebook working on the current Colab runtime;
-- adds a simple mode: pick what you want (acapella, instrumental, stems…) and the recommended model and its settings are used;
+- adds a simple mode: pick what you want (acapella, instrumental, stems…) and the best public model for it according to
+  [deton24's guide](https://docs.google.com/document/d/17fjNvJzj8ZGSer7c7OFe_CNfUKbAxEh_OBv94ZdRG5c) (edition {cat['guide_edition']}) is used, with its own settings;
 - loads **each model's own settings** (the chunk size and overlap its author published) instead of one value for all;
 - backs up the models that only survive as third-party re-uploads ([{HF}](https://huggingface.co/{HF})) and falls back to that copy when a link dies;
-- adds the newer community models (Leap Xe, Big Beta 7, deux, voc_fv7…): every model in the catalog is checked against the code
-  (parameter names and shapes) before it is listed;
+- adds the newer community models (Leap Xe, HyperACE v2, deux, Big Beta 7, gilliaan's phantom center / karaoke / de-effect…),
+  including the ones that ship their own model code (unwa's HyperACE, FNO, Siamese, Large-Inst): every model in the catalog
+  is checked against the code (parameter names and shapes) before it is listed;
 - checks every source link weekly.
 
 The plain restoration of jarredou's original notebooks lives in [dsh04daaf/colab](https://github.com/dsh04daaf/colab).
@@ -61,6 +63,9 @@ The plain restoration of jarredou's original notebooks lives in [dsh04daaf/colab
 - **ZFTurbo** — [Music-Source-Separation-Training](https://github.com/ZFTurbo/Music-Source-Separation-Training), the training and inference code.
 - **Qupci** — kept jarredou's `colab-inference` branch alive in a fork; the code here is forked from it.
 - **santilli_** — the requirements fix.
+- **deton24** & **makidanye** — the maintained version of the Colab (on **listra92**'s fork), where many of the newer models and
+  their links come from; **listra92** — the `bs_roformer_custom` approach for models with their own code, and the FNO code file.
+- **noblebarkrr** (mvsepless) — mirrors of several models whose original link is gone.
 - Every model author, listed below.
 
 ## Créditos

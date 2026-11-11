@@ -167,7 +167,7 @@ def _download(f, t, folder):
     from urllib.parse import quote
     os.makedirs(folder, exist_ok=True)
     dest = os.path.join(folder, f['name'])
-    want = f.get('bytes')
+    want = None if f['role'] == 'code' else f.get('bytes')  # an author may update the model's .py; take whatever is there
     if os.path.exists(dest) and (not want or os.path.getsize(dest) == want or f['role'] == 'config'):
         print(t['cached'].format(f['name']))
         return dest
@@ -274,6 +274,13 @@ def _separate(m, input_folder, output_folder, export_format, quality, chunk_size
     print(t['model'].format(m['name'], m['author']))
     folder = os.path.join(ROOT, 'ckpts', _slug(m['name']))
     paths = {f['role']: _download(f, t, folder) for f in m['files']}
+    if m.get('pip'):  # extra packages only some models need (e.g. neuraloperator for unwa's FNO)
+        subprocess.run([sys.executable, '-m', 'pip', 'install', '-q'] + m['pip'], check=True)
+    if 'code' in paths:  # models that ship their own bs_roformer.py (model_type bs_roformer_custom)
+        custom = os.path.join(ROOT, 'models', 'bs_roformer_custom')
+        os.makedirs(custom, exist_ok=True)
+        open(os.path.join(custom, '__init__.py'), 'a').close()
+        shutil.copy(paths['code'], os.path.join(custom, 'bs_roformer.py'))
     st = resolve_settings(m, quality, chunk_size, overlap)
     if st:
         _conf_edit(paths['config'], *st)
@@ -345,8 +352,16 @@ def run(goal='acapella', model='auto', input_folder='/content/drive/MyDrive/inpu
         extract = goal in ('acapella', 'karaoke', 'dereverb', 'denoise') or (goal == 'instrumental' and m.get('target') != 'other' and bool(m.get('target')))
     _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t)
     if goal in ('instrumental', 'acapella'):
-        for f in glob.glob(os.path.join(output_folder, '*_other.*')):
-            os.replace(f, '_instrumental.'.join(f.rsplit('_other.', 1)))
+        for old in ('_other.', '_instrument.', '_Instrumental.'):  # each author names the instrumental stem differently
+            for f in glob.glob(os.path.join(output_folder, '*' + old + '*')):
+                os.replace(f, '_instrumental.'.join(f.rsplit(old, 1)))
+        for f in glob.glob(os.path.join(output_folder, '*_Vocals.*')):
+            os.replace(f, '_vocals.'.join(f.rsplit('_Vocals.', 1)))
+    if goal == 'denoise' and m['name'].startswith('DENOISE-DEBLEED'):
+        # Gabox's denoise/debleed was trained from an instrumental model: "Instrumental" = clean, "Vocals" = the noise removed
+        for old, new in (('_Instrumental.', '_denoised.'), ('_Vocals.', '_noise.')):
+            for f in glob.glob(os.path.join(output_folder, '*' + old + '*')):
+                os.replace(f, new.join(f.rsplit(old, 1)))
         if goal == 'instrumental':
             print(t['is_inst'])
     print(t['done'].format(output_folder))

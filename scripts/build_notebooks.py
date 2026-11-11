@@ -6,7 +6,7 @@ RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
 cat = json.load(open(f'{HERE}/models.json', encoding='utf-8'))
 names = [m['name'] for m in cat['models']]
 L = {
- 'es': dict(file='Colab_Inference_ES.ipynb', fauto='auto (igual que el archivo original)', auto='Recomendado (según lo que elegí arriba)',
+ 'es': dict(file='Colab_Inference_ES.ipynb', fauto='auto (tipo y bits del original, a 44 100 Hz)', auto='Recomendado (según lo que elegí arriba)',
   goals=[('acapella', 'Acapella (voz) + instrumental'), ('instrumental', 'Instrumental'),
          ('stems', 'Stems: voz, batería, bajo, guitarra, piano, otros'), ('drum_pieces', 'Batería por piezas: bombo, caja, toms, hi-hat, platos'),
          ('karaoke', 'Karaoke: separar voz principal de coros'), ('dereverb', 'Quitar reverb'), ('denoise', 'Quitar ruido')],
@@ -51,7 +51,7 @@ Dentro de cada categoría (VOCALS, INST, KARAOKE, DE-REVERB…) van **de mejor a
 - **Calidad** — *Máxima* sube el `overlap` a 8, que es el tope útil según jarredou («normalmente no tiene sentido pasar de 8»); tarda más. *Rápida* usa el `overlap` del autor.
 - **chunk_size** — el tamaño de los trozos en que se corta la canción para procesarla. Cada modelo se entrenó con uno; `auto` usa el del autor.
 - **overlap** — cuánto se pisan esos trozos entre sí. Más alto = uniones más limpias y más tiempo.
-- **Formato** — `auto` guarda cada resultado igual que su canción original: mismo tipo (WAV/FLAC), mismos bits y misma frecuencia. Los modelos trabajan por dentro a 44 100 Hz, así que una canción de 48 000 Hz se devuelve a 48 000 Hz para que encaje en tu proyecto, sin que eso añada calidad. Un MP3 o M4A sale como WAV de 16 bits.
+- **Formato** — `auto` guarda cada resultado con el mismo tipo (WAV/FLAC) y los mismos bits que su canción original, pero **siempre a 44 100 Hz**: casi todos los modelos (178 de 185) trabajan a 44 100 Hz y no ven nada arriba de 22 050 Hz, así que devolver una canción de 96 o 176,4 kHz a su frecuencia original solo daría un falso hi-res (archivo más grande, mismo corte en 22 kHz). Los bits sí son reales: el modelo calcula en decimal de 32 bits, así que 16 o 24 bits no pierden nada audible. Si una pista pasa de 0 dBFS se avisa: en 16/24 bits se recorta y `wav FLOAT` la conserva entera. Un MP3 o M4A sale como WAV de 16 bits.
 - **TTA** — procesa la canción tres veces (normal, canales invertidos, fase invertida) y promedia. Tarda el triple y la mejora rara vez se oye.
 - **extraer_instrumental** — solo en modo manual: además del stem del modelo, guarda lo que queda al restarlo de la mezcla.
 
@@ -62,7 +62,7 @@ Algunos modelos (SW de 6 stems, DrumSep, SCNet…) no admiten cambiar chunk/over
 - **No aparece mi Drive** — vuelve a ejecutar *1. Preparar*.
 - **Se quedó sin memoria** — usa calidad *Rápida* o un `chunk_size` más pequeño.
 - Al terminar: *Entorno de ejecución → Desconectar y eliminar entorno*, para no gastar tus créditos."""),
- 'en': dict(file='Colab_Inference_EN.ipynb', fauto='auto (same as the source file)', auto='Recommended (for what I picked above)',
+ 'en': dict(file='Colab_Inference_EN.ipynb', fauto='auto (source type and bit depth, at 44,100 Hz)', auto='Recommended (for what I picked above)',
   goals=[('acapella', 'Acapella (vocals) + instrumental'), ('instrumental', 'Instrumental'),
          ('stems', 'Stems: vocals, drums, bass, guitar, piano, other'), ('drum_pieces', 'Drum pieces: kick, snare, toms, hi-hat, cymbals'),
          ('karaoke', 'Karaoke: split lead vocal from backing'), ('dereverb', 'Remove reverb'), ('denoise', 'Remove noise')],
@@ -107,7 +107,7 @@ Within each category (VOCALS, INST, KARAOKE, DE-REVERB…) models go **from best
 - **Quality** — *Maximum* raises `overlap` to 8, the useful ceiling according to jarredou ("normally there's no point going over 8"); it takes longer. *Fast* uses the author's `overlap`.
 - **chunk_size** — the size of the pieces the song is cut into for processing. Each model was trained with one; `auto` uses the author's.
 - **overlap** — how much those pieces overlap. Higher = cleaner joins and more time.
-- **Format** — `auto` saves each result like its source song: same type (WAV/FLAC), same bit depth and same sample rate. The models work at 44,100 Hz internally, so a 48,000 Hz song is returned at 48,000 Hz to fit your project, without that adding quality. An MP3 or M4A comes out as 16-bit WAV.
+- **Format** — `auto` saves each result with the same type (WAV/FLAC) and bit depth as its source song, but **always at 44,100 Hz**: almost every model (178 of 185) works at 44,100 Hz and sees nothing above 22,050 Hz, so returning a 96 or 176.4 kHz song at its original rate would only be fake hi-res (bigger file, same 22 kHz cut). The bit depth is real: the model computes in 32-bit floating point, so 16 or 24 bits lose nothing audible. A stem that goes over 0 dBFS is flagged: 16/24-bit clips it and `wav FLOAT` keeps it whole. An MP3 or M4A comes out as 16-bit WAV.
 - **TTA** — processes the song three times (normal, swapped channels, inverted phase) and averages. Three times slower and the gain is rarely audible.
 - **extract_instrumental** — manual mode only: besides the model's stem, also saves what is left after subtracting it from the mix.
 

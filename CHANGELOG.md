@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-11 — no more fake hi-res
+- **`auto` format keeps the source's type and bit depth but always writes at the model's sample rate (44.1 kHz)**.
+  178 of 185 configs say 44100 (6 say nothing → the engine's default 44100; BandIt v2 says 48000), and the engine
+  resamples every song to it, so the model never sees anything above 22.05 kHz. Writing a 176.4 kHz song's stems back at
+  176.4 kHz (what `auto` did) gave a 24/176.4 file with the 22 kHz cut: fake hi-res. The message says so when it applies.
+- Bit depth is real: the engine reads float32, the model runs in mixed precision (float16/32, `use_amp`) and writes 32-bit float.
+- Stems that go over 0 dBFS are flagged when the output is 16/24-bit PCM (soundfile clips them); `wav FLOAT` keeps them.
+
 ## 2026-11-11 — source monitor fixed + guide watch
 - **The weekly monitor had failed every Monday since 2026-10-19**: mirror accounts (Eddycrack864 & co., which re-upload
   other people's models by the hundred) pushed the report past GitHub's 65,536-character issue limit; the failed step also

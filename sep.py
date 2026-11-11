@@ -65,7 +65,8 @@ T = {
         'failed': '❌ La separación falló (código {}). Revisa el mensaje de arriba.',
         'no_drums': '❌ No se encontró la pista de batería del paso anterior.',
         'fmt': 'Formato de {}: {} · {} bits · {} Hz',
-        'fmt_same_sr': '44100 (el del modelo)',
+        'clip': '   ⚠️ {} pasa de 0 dBFS (pico +{:.1f} dB) y en {} bits se recorta; para conservarla entera elige el formato "wav FLOAT"',
+        'fmt_sr_note': '   el original es de {} Hz, pero el modelo trabaja a {} Hz: el resultado sale a {} Hz porque subirlo solo daría un falso hi-res (arriba de {} Hz no hay nada)',
         'working': 'Separando… (la barra de abajo avanza por trozos; con calidad máxima o TTA tarda varios minutos por canción)',
         'oom': '⚠️ La GPU se quedó sin memoria con los ajustes del autor. Reintentando con chunk_size={} y overlap menor…',
         'is_inst': 'El archivo terminado en "_instrumental" es el instrumental.',
@@ -88,7 +89,8 @@ T = {
         'failed': '❌ Separation failed (exit code {}). Check the message above.',
         'no_drums': '❌ The drums stem from the previous step was not found.',
         'fmt': 'Format of {}: {} · {} bit · {} Hz',
-        'fmt_same_sr': "44100 (the model's)",
+        'clip': '   ⚠️ {} goes over 0 dBFS (peak +{:.1f} dB) and is clipped at {} bit; to keep it whole pick the "wav FLOAT" format',
+        'fmt_sr_note': "   the original is {} Hz, but the model works at {} Hz: the result stays at {} Hz because raising it would only be fake hi-res (nothing above {} Hz)",
         'working': 'Separating… (the bar below moves chunk by chunk; maximum quality or TTA takes several minutes per song)',
         'oom': "⚠️ The GPU ran out of memory with the author's settings. Retrying with chunk_size={} and a lower overlap…",
         'is_inst': 'The file ending in "_instrumental" is the instrumental.',
@@ -221,7 +223,11 @@ def resolve_settings(m, quality='max', chunk_size='auto', overlap='auto'):
 
 
 def _source_format(path):
-    """(container, subtype, samplerate) of an input file; lossy or unreadable inputs map to 16-bit WAV."""
+    """(container, subtype, samplerate) of an input file; lossy or unreadable inputs map to 16-bit WAV.
+
+    The result keeps the source's container and bit depth, but never its sample rate: the engine resamples every song
+    to the model's rate (44.1 kHz) and the model never sees anything above half of it, so writing the result back at
+    96/176.4/192 kHz would be fake hi-res (bigger file, same 22 kHz cut). samplerate is returned only for the message."""
     try:
         import soundfile as sf
         i = sf.info(path)
@@ -244,11 +250,13 @@ def _convert(path, container, subtype, samplerate):
         data, sr = soxr.resample(data, sr, samplerate, quality='VHQ'), samplerate
     dest = os.path.splitext(path)[0] + '.' + container
     tmp = dest + '.tmp.' + container
+    import numpy as np
+    peak = float(np.abs(data).max()) if data.size else 0.0  # PCM clips anything above 1.0 (soundfile clips, no wrap-around)
     sf.write(tmp, data, sr, subtype=subtype)
     if dest != path:
         os.remove(path)
     os.replace(tmp, dest)
-    return dest
+    return dest, peak
 
 
 def _match_format(input_files, folder, since, export_format, t, quiet=False):
@@ -263,11 +271,17 @@ def _match_format(input_files, folder, since, export_format, t, quiet=False):
         if not src:
             continue
         fmt = fixed or _source_format(src)
-        _convert(out, *fmt)
+        import soundfile as sf
+        model_sr = sf.info(out).samplerate  # what the engine actually worked at (44100 for almost every model)
+        dest, peak = _convert(out, fmt[0], fmt[1], None)
+        if peak > 1.0 and fmt[1] != 'FLOAT':
+            import math
+            print(t['clip'].format(os.path.basename(dest), 20 * math.log10(peak), fmt[1].replace('PCM_', '')))
         if src not in shown and not quiet:
             shown.add(src)
-            print(t['fmt'].format(os.path.basename(src), fmt[0].upper(), fmt[1].replace('PCM_', '').replace('FLOAT', '32 float'),
-                                  fmt[2] or t['fmt_same_sr']))
+            print(t['fmt'].format(os.path.basename(src), fmt[0].upper(), fmt[1].replace('PCM_', '').replace('FLOAT', '32 float'), model_sr))
+            if fmt[2] and fmt[2] > model_sr:
+                print(t['fmt_sr_note'].format(fmt[2], model_sr, model_sr, model_sr // 2))
 
 
 def _separate(m, input_folder, output_folder, export_format, quality, chunk_size, overlap, use_tta, extract, t, source_files=None):

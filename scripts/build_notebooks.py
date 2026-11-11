@@ -41,7 +41,7 @@ Dentro de cada categoría (VOCALS, INST, KARAOKE, DE-REVERB…) van **de mejor a
 - **Calidad** — *Máxima* sube el `overlap` a 8, que es el tope útil según jarredou («normalmente no tiene sentido pasar de 8»); tarda más. *Rápida* usa el `overlap` del autor.
 - **chunk_size** — el tamaño de los trozos en que se corta la canción para procesarla. Cada modelo se entrenó con uno; `auto` usa el del autor.
 - **overlap** — cuánto se pisan esos trozos entre sí. Más alto = uniones más limpias y más tiempo.
-- **Formato** — `auto` guarda cada resultado igual que su canción original: mismo tipo (WAV/FLAC), mismos bits y misma frecuencia. Los modelos trabajan por dentro a 44 100 Hz, así que una canción de 48 000 Hz se devuelve a 48 000 Hz para que encaje en tu proyecto, sin que eso añada calidad. Un MP3 o M4A sale como WAV de 16 bits.
+- **Formato** — `auto` guarda cada resultado igual que su canción original: mismo tipo (WAV/FLAC), mismos bits y misma frecuencia. Los modelos trabajan por dentro a 44 100 Hz (solo ven hasta 22 050 Hz); si tu canción tiene más frecuencia (48, 96, 176,4, 192 kHz…), lo que tiene arriba de 22 050 Hz se toma del original y se reparte entre las pistas según lo que cada una lleva justo debajo del corte, así que el espectro sale completo, sin el corte de 22 kHz, y las pistas siguen sumando la canción. Un MP3 o M4A sale como WAV de 16 bits.
 - **TTA** — procesa la canción tres veces (normal, canales invertidos, fase invertida) y promedia. Tarda el triple y la mejora rara vez se oye.
 - **extraer_instrumental** — solo en modo manual: además del stem del modelo, guarda lo que queda al restarlo de la mezcla.
 
@@ -87,7 +87,7 @@ Within each category (VOCALS, INST, KARAOKE, DE-REVERB…) models go **from best
 - **Quality** — *Maximum* raises `overlap` to 8, the useful ceiling according to jarredou ("normally there's no point going over 8"); it takes longer. *Fast* uses the author's `overlap`.
 - **chunk_size** — the size of the pieces the song is cut into for processing. Each model was trained with one; `auto` uses the author's.
 - **overlap** — how much those pieces overlap. Higher = cleaner joins and more time.
-- **Format** — `auto` saves each result like its source song: same type (WAV/FLAC), same bit depth and same sample rate. The models work at 44,100 Hz internally, so a 48,000 Hz song is returned at 48,000 Hz to fit your project, without that adding quality. An MP3 or M4A comes out as 16-bit WAV.
+- **Format** — `auto` saves each result like its source song: same type (WAV/FLAC), same bit depth and same sample rate. The models work at 44,100 Hz internally (they only see up to 22,050 Hz); if your song has a higher rate (48, 96, 176.4, 192 kHz…), everything it has above 22,050 Hz is taken from the original and shared between the stems by what each one carries just below the cut, so the spectrum comes out complete, without the 22 kHz cut, and the stems still add up to the song. An MP3 or M4A comes out as 16-bit WAV.
 - **TTA** — processes the song three times (normal, swapped channels, inverted phase) and averages. Three times slower and the gain is rarely audible.
 - **extract_instrumental** — manual mode only: besides the model's stem, also saves what is left after subtracting it from the mix.
 

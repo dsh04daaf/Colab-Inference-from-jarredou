@@ -357,6 +357,9 @@
    "Hanser_4.1_v3/kmeans_10000.pt",
    "Hanser_4.1_v3/vocoder_augment/hanser.ckpt"
   ],
+  "Sucial/drumsep-ht-roformer": [
+   "drumsep_ht_roformer.ckpt"
+  ],
   "Sucial/photon-models": [
    "raw/cinema4stem_fp16c_t2/cinema4stem_fp16c_t2.safetensors",
    "raw/drumsep_1.3/drumsep_1.3.safetensors",
@@ -405,7 +408,7 @@
   ]
  },
  "_guide": {
-  "edition": "2026-11-10",
+  "edition": "2026-11-11",
   "entries": [
    "iZotope released a new separation tool called Photon (expensive, but subscription is available and also a 14-day trial). \u2192 Inst SDR 17.21, fullness: 26.59, bleedless 46.54",
    "(MVSEP) \u201dI added a new model in the BS Roformer (vocals, instrumental) section, created by becruily, with high instrumental fullness. It's available with name: \u2192 Vocals bleedless: 36.30, fullness: 21.38, SDR: 12.25",
@@ -553,13 +556,14 @@
    "MVSep BS Roformer 124 bands (currently only for premium/paid members of MVSep.com) \u2192 Vocals bleedless: 39.18, fullness: 18.11, SDR: 12.33'",
    "MVSep BS PolarFormer model (124 bands) - only on MVSep (longer queue w/o premium/account) \u2192 Vocals bleedless: 39.26, fullness: 17.18, SDR: 12.02",
    "MVSep BS-Roformer 2025.07 (only on MVSep) \u2192 Vocals bleedless: 38.25, fullness: 17.23, SDR: 11.89",
-   "Mel-Roformer Bas Curtiz edition (/w Marekkon5) (trained on also ZFTurbo dataset) only on MVSEP (older version of 2024.10 model) \u2192 Vocals bleedless: 39.20, fullness: 16.24, SDR 11.18.",
+   "Mel-Roformer Bas Curtiz edition (/w Marekkon5) (trained on also ZFTurbo dataset) only on MVSEP (2024.10 model is its fine-tune) \u2192 Vocals bleedless: 39.20, fullness: 16.24, SDR 11.18.",
    "unwa BS-Roformer-Leap vocal \u2192 Vocals bleedless: 38.90, fullness: 17.07, SDR: 11.72",
-   "Mel-Roformer 2024.10 (Bas Curtiz model fine-tuned by ZFTurbo) only on MVSEP \u2192 Vocals bleedless: 37.80, fullness: 17.07, SDR 11.28",
-   "Mel-Roformer 2024.10 (Bas Curtiz model fine-tuned by ZFTurbo) only on MVSEP \u2192 Small amounts of bleeding from instrumentals (inst. bleedless 39.20), might struggle with flute occasionally, good enoug",
+   "Mel-Roformer 2024.10 (Bas Curtiz edition model fine-tuned by ZFTurbo) only on MVSEP \u2192 Vocals bleedless: 37.80, fullness: 17.07, SDR 11.28",
+   "Mel-Roformer 2024.10 (Bas Curtiz edition model fine-tuned by ZFTurbo) only on MVSEP \u2192 Small amounts of bleeding from instrumentals (inst. bleedless 39.20), might struggle with flute occasionally, good enoug",
    "BS-Roformer 2024.08 (viperx model fine-tuned v2 by ZFTurbo) on MVSEP \u2192 Vocals bleedless: 37.61, fullness: 15.89, SDR: 11.32",
    "MVSep Becruily/ZFTurbo BS-Roformer high instrum fullness 124 bands \u2192 Vocals bleedless: 36.30, fullness: 21.38, SDR: 12.25",
    "MVSep Ensemble 11.93 (vocals, instrum) (2025.06.28) - only for premium users \u2192 Vocals bleedless: 36.30, fullness: 17.73, SDR: 11.93",
+   "Mel-Roformer unwa\u2019s inst-voc model called \u201cduality\u201d v2 | Colab | MVSEP \u2192 voc. bleedless: 35.74, fullness: 16.93, vocals SDR: 10.93",
    "BS-Roformer SW 6 stem / vocals-only variant (MVSEP | Colab | nextgen.uvronline) \u2192 Vocals bleedless: 36.06, fullness: 16.95, SDR 11.36",
    "unwa Big Beta 7 Mel-Roformer vocal model | MK Colab \u2192 Bleedless 38.77, fullness 16.20, SDR 11.20.",
    "Unwa Kim Mel-Band Roformer Bleedless FT2 | download | Colab | Huggingface / 2 | Kaggle | UVR instruction \u2192 Vocals bleedless 39.30, fullness 15.77, SDR 11.05",
@@ -621,6 +625,8 @@
    "32-bit higher SDR result of original multisong dataset uploaded as output (opposed to the previous 16-bit currently on top). \u201cMultisong dataset | Original stems \u2192 - Bytedance v.0.2 - inst. SDR 17.26, now it\u2019s outperformed by v.0.3 and is 17.28, now called 1.0),"
   ],
   "news": [
+   "- (MVSEP) \u201cWe added a new algorithm \"MVSep Synth Percussion\". It's based on BSRoformer model and extracts Synth Percussion.\u201d - ZFTurbo",
+   "- Logic Pro since version 13 [released on October 27] | metrics (worse than jarredou 5 stem)",
    "- (MVSEP) becruily\u2019s de-limit model added (link)",
    "- (MVSEP) \u201cI've added a new model, \"BS Roformer (10 stems)\", which is now available under the DrumSep algorithm. It separates drums into 10 distinct stems: kick, snare, clap, hi-hat, toms, ride, tambourine, shakers, cymbal, and other.",
    "- Stereorizer model by gilliaan added in the experimental section of uvronline (link) and on MVSEP (link)",
@@ -678,9 +684,7 @@
    "- MVSEP added per-stem overrides, which you can set up from your profile.",
    "- MVSep FX model turned out to be much better than the Crowd MelRo+MDX23C ensemble for crowd removal with the BS being constantly worse (thx lmmj2025/kai)",
    "- (MVSEP) \u201cWe added a new algorithm \"Upmixing by Jazzpear\". It restores 5.1 Surround track from Stereo. Big thanks for the SCNet model to jazzpear.",
-   "- A \u201cnew karaoke model y'all. I don't think it's the best out there tho... Very mid but still sharing LOL. Dual model, finetune of gilliaan_melroformer_centerwide_v3!\u201d - gilliaan",
-   "- \u201cWe added MSST package in pip:",
-   "- gilliaan_bsroformer_bowedstrings_v2 | yaml | metrics | Colab | MVSEP"
+   "- A \u201cnew karaoke model y'all. I don't think it's the best out there tho... Very mid but still sharing LOL. Dual model, finetune of gilliaan_melroformer_centerwide_v3!\u201d - gilliaan"
   ]
  },
  "anvuew": {
